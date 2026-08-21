@@ -352,6 +352,28 @@
       '</div><span class="meter__val">' + sum + '<i>/' + planned + 'p</i></span></div>';
   }
 
+  /* 하루 안에서 같은 도서가 여러 블록(오전/오후)으로 쪼개져 있어도 실적은
+     (날짜, 도서) 하나로 저장된다. 블록마다 입력란을 만들면 뒤에 쓴 값이 앞을 덮어
+     그만큼 미달로 새므로, 도서 단위로 합쳐 입력란 하나만 둔다. 세션 구분은 표시로 남긴다. */
+  function dayBooks(d) {
+    var order = [], map = {};
+    d.blocks.forEach(function (bl) {
+      if (!bl.pages) return;
+      if (!map[bl.book]) {
+        map[bl.book] = { book: bl.book, pages: 0, sessions: [] };
+        order.push(map[bl.book]);
+      }
+      map[bl.book].pages += bl.pages;
+      if (bl.session) map[bl.book].sessions.push(bl.session + " " + bl.pages + "p");
+    });
+    return order;
+  }
+  function dayActual(d) {
+    var sum = 0;
+    dayBooks(d).forEach(function (g) { sum += act(d.date, g.book); });
+    return sum;
+  }
+
   function dayHTML(d) {
     if (d.type === "full_day") {
       var bl = d.blocks[0], on = !!ST.done[d.date];
@@ -364,24 +386,25 @@
         '<label class="chk"><input type="checkbox" data-done="' + d.date + '"' +
           (on ? " checked" : "") + '><span>완료</span></label></div>';
     }
-    var sum = 0;
-    d.blocks.forEach(function (bl) { sum += act(d.date, bl.book); });
+    var groups = dayBooks(d), sum = dayActual(d);
     return '<div class="day" data-day="' + d.date + '">' +
       '<div class="day__hd"><span class="day__date">' + md(d.date) + '</span>' +
         '<span class="day__dow">' + d.dow + '</span>' +
         '<button class="day__fill" type="button" data-fill="' + d.date +
           '" title="계획대로 채우기">계획대로</button></div>' +
-      '<ul class="day__blocks">' + d.blocks.map(function (bl) {
-        var a = act(d.date, bl.book);
-        return '<li class="ck' + (a === 0 ? "" : a >= bl.pages ? " is-met" : " is-short") +
-          '" style="--bk:var(--bk-' + BOOKS[bl.book].hue + ')">' +
-          '<span class="ck__dot"></span><span class="ck__nm">' + esc(BOOKS[bl.book].name) +
-            (bl.session ? '<em>' + esc(bl.session) + '</em>' : "") + '</span>' +
+      '<ul class="day__blocks">' + groups.map(function (g) {
+        var a = act(d.date, g.book);
+        return '<li class="ck' + (a === 0 ? "" : a >= g.pages ? " is-met" : " is-short") +
+          '" style="--bk:var(--bk-' + BOOKS[g.book].hue + ')">' +
+          '<span class="ck__dot"></span><span class="ck__nm">' + esc(BOOKS[g.book].name) +
+            (g.sessions.length > 1
+              ? '<em title="서로 다른 장">' + esc(g.sessions.join(" · ")) + '</em>' : "") +
+          '</span>' +
           '<input class="ck__in" type="number" inputmode="numeric" min="0" max="199" placeholder="0"' +
-            ' value="' + (a || "") + '" data-date="' + d.date + '" data-book="' + bl.book +
-            '" aria-label="' + esc(BOOKS[bl.book].name) + ' ' + md(d.date) +
-            ' 실제 녹음 페이지 (목표 ' + bl.pages + ')">' +
-          '<span class="ck__tgt">/' + bl.pages + 'p</span></li>';
+            ' value="' + (a || "") + '" data-date="' + d.date + '" data-book="' + g.book +
+            '" aria-label="' + esc(BOOKS[g.book].name) + ' ' + md(d.date) +
+            ' 실제 녹음 페이지 (목표 ' + g.pages + ')">' +
+          '<span class="ck__tgt">/' + g.pages + 'p</span></li>';
       }).join("") + '</ul>' +
       (d.note ? '<p class="day__note">' + esc(d.note) + '</p>' : "") +
       meterHTML(sum, d.total) + '</div>';
@@ -474,15 +497,14 @@
         if (d.type === "full_day") return;
         var cell = document.querySelector('[data-day="' + d.date + '"]');
         if (!cell) return;
-        var sum = 0;
-        d.blocks.forEach(function (bl) { sum += act(d.date, bl.book); });
+        var groups = dayBooks(d);
         var m = cell.querySelector(".meter");
-        if (m) m.outerHTML = meterHTML(sum, d.total);
+        if (m) m.outerHTML = meterHTML(dayActual(d), d.total);
         cell.querySelectorAll(".ck").forEach(function (li, idx) {
-          var bl = d.blocks[idx]; if (!bl) return;
-          var a = act(d.date, bl.book);
-          li.classList.toggle("is-met", a > 0 && a >= bl.pages);
-          li.classList.toggle("is-short", a > 0 && a < bl.pages);
+          var g = groups[idx]; if (!g) return;
+          var a = act(d.date, g.book);
+          li.classList.toggle("is-met", a > 0 && a >= g.pages);
+          li.classList.toggle("is-short", a > 0 && a < g.pages);
         });
       });
     });
@@ -518,7 +540,7 @@
     if (!b) return;
     PLAN.weeks.forEach(function (w) { w.days.forEach(function (d) {
       if (d.date !== b.dataset.fill) return;
-      d.blocks.forEach(function (bl) { if (bl.pages) setAct(d.date, bl.book, bl.pages); });
+      dayBooks(d).forEach(function (g) { setAct(d.date, g.book, g.pages); });
     }); });
     save(); render(); laterCheck();
   });

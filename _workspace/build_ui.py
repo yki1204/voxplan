@@ -178,8 +178,9 @@ input:focus-visible,button:focus-visible{outline:2px solid var(--accent);
 .ck__dot{width:7px;height:7px;border-radius:2px;background:var(--bk)}
 .ck__nm{color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   min-width:0}
-.ck__nm em{font-style:normal;font-size:9.5px;color:var(--muted);margin-left:3px;
-  padding:0 3px;border:1px solid var(--rule);border-radius:3px}
+.ck__nm em{font-style:normal;font-size:9px;color:var(--muted);margin-left:4px;
+  padding:0 3px;border:1px solid var(--rule);border-radius:3px;white-space:nowrap;
+  font-family:"IBM Plex Mono",monospace}
 .ck__in{width:100%;font-family:"IBM Plex Mono",monospace;font-size:12.5px;font-weight:600;
   font-variant-numeric:tabular-nums;text-align:right;color:var(--ink);
   background:var(--surface-2);border:1px solid var(--rule);border-radius:5px;
