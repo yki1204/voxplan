@@ -19,6 +19,51 @@
 
 기간 **2026-08-24 → 10-02** · 평일 30일 · 녹음 22일 · 총 820p · 일평균 37.3p · 상한 40p
 
+## 다음 세션에서 이어서 작업하기
+
+대화 기록은 사라지지만 상태는 파일에 남는다. 프로젝트 폴더에서 Claude Code 를 열면
+`CLAUDE.md` 가 자동으로 로딩되고, 거기 적힌 트리거가 오케스트레이터 스킬을 깨운다.
+
+```bash
+cd ~/voxplan   # 또는 git clone https://github.com/yki1204/voxplan.git && cd voxplan
+claude
+```
+
+그 다음은 하려는 일을 그냥 말하면 된다 — "9월 마지막 주 부하 좀 낮춰줘",
+"성경 페이지 수 바뀌었어", "쿠폰 하나 더 추가해줘". 오케스트레이터가 `_workspace/` 를 보고
+초기 실행 / 부분 재실행 / 새 실행을 스스로 판별한다.
+
+**이전 세션의 결론이 어디에 남아 있는가**
+
+| 파일 | 내용 |
+|------|------|
+| `CLAUDE.md` | 트리거 규칙 · 배포처 · **변경 이력**(무엇을 왜 바꿨는지, 시간순) |
+| `_workspace/01_..._constraints.json` | 정규화된 제약 — 검증의 정답지 |
+| `_workspace/02_..._schedule.json` | 확정된 일자별 배분 |
+| `_workspace/03_..._report.md` | 검증 리포트 (실행 출력 포함) |
+| `.claude/agents/`, `.claude/skills/` | 누가 무엇을 어떻게 하는지 |
+| git log | 각 변경의 배경과 근거 |
+
+**주의할 점 두 가지**
+
+1. **아티팩트를 갱신하려면 URL 이 필요하다.** 새 대화에서 그냥 발행하면 같은 링크가
+   갱신되는 대신 별개 아티팩트가 생기고, 이미 공유한 링크가 죽는다. URL 은 `CLAUDE.md`
+   배포 항목에 적어 두었고, 터미널에서 `/artifacts` 로도 찾을 수 있다.
+   GitHub Pages 쪽은 `main` 에 push 하면 자동 배포되므로 신경 쓸 것이 없다.
+2. **실적 데이터는 읽을 수 없다.** 브라우저 `localStorage` 에만 있다. 진도 분석이나
+   재계획 판정이 필요하면 값을 알려줘야 한다 — 화면 캡처, 또는 브라우저 콘솔에서
+   `localStorage.getItem("voxplan.checkins.v1")` 결과를 붙여 주면 된다.
+
+**계획을 손으로 바꿨다면** 반드시 검증과 재생성을 거친다:
+
+```bash
+python3 .claude/skills/schedule-validation/scripts/validate_schedule.py \
+  _workspace/01_constraint-analyst_constraints.json \
+  _workspace/02_optimizer_schedule.json     # 종료코드 0 이어야 함
+python3 _workspace/build_ui.py              # index.html 재생성
+node _workspace/test_split.js               # 전량 이행 시 주말 잔여 0 회귀
+```
+
 ## 구조
 
 ```

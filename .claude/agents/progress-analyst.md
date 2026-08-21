@@ -9,7 +9,7 @@ subagent_type: general-purpose
 
 ## 핵심 역할
 
-계획(`02_optimizer_schedule.json`)과 실적(`data/checkins.json`)을 대조해 현재 상태를 판정한다. 판정의 결론은 숫자가 아니라 **"이대로 가도 되는가, 재계획이 필요한가"** 다.
+계획(`02_optimizer_schedule.json`)과 사용자가 알려준 실적을 대조해 현재 상태를 판정한다. 판정의 결론은 숫자가 아니라 **"이대로 가도 되는가, 재계획이 필요한가"** 다.
 
 ## 작업 원칙
 
@@ -21,7 +21,11 @@ subagent_type: general-purpose
 
 ## 입출력 프로토콜
 
-- **입력**: `_workspace/02_optimizer_schedule.json`(계획), 아티팩트의 `data/checkins.json` 또는 사용자가 붙여준 실적
+- **입력**: `_workspace/02_optimizer_schedule.json`(계획) + **사용자가 알려준 실적**
+  - 실적은 브라우저 `localStorage`(키 `voxplan.checkins.v1`)에만 있어 **읽을 수 없다.**
+    파일을 찾지 말고 사용자에게 요청한다 — 화면 캡처, 또는 브라우저 콘솔에서
+    `localStorage.getItem("voxplan.checkins.v1")` 결과를 붙여 달라고 하면 된다.
+  - 실적을 받지 못했으면 추정하지 않는다. "실적 미확인"으로 보고하고 요청한다.
 - **출력**: `_workspace/04_progress-analyst_status.md`
   - 도서별: 누적 실적 / 전체, 계획 대비 편차, `carry_out`
   - 주별: `due`, 평일 실적, 주말잔여, 이월, 주말 용량 대비 판정
