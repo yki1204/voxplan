@@ -1,0 +1,70 @@
+{
+  "meta": {
+    "project": "voxplan",
+    "start": "2026-08-24",
+    "end": "2026-10-02",
+    "working_days": [
+      "MON",
+      "TUE",
+      "WED",
+      "THU",
+      "FRI"
+    ],
+    "daily_page_cap": 40,
+    "daily_page_target": 37,
+    "min_books_per_recording_day": 2,
+    "horizon_note": "레바논의 시내 마감은 2달 후 2026-10-23(금). 다만 전체 필요량 820p를 만기까지 늘려 배분하면 일평균 24.1p로 30~40p 밴드에 미달하고 단일도서 구간이 17일로 늘어난다. 따라서 계획 종료는 2026-10-02(금, 6주)로 압축 — 일평균 37.3p(밴드 내), 단일도서 5일, 마감까지 평일 15일 버퍼 확보.",
+    "deadline_buffer_weekdays": 15
+  },
+  "books": [
+    {
+      "id": "classics-youtube",
+      "name": "고전 유튜브",
+      "kind": "full_day_weekly",
+      "pages": null,
+      "cadence": "주 1일 전일 녹음",
+      "deadline": null,
+      "notes": "페이지 산정 대상 아님. 주 1회 하루를 통으로 점유."
+    },
+    {
+      "id": "major-book",
+      "name": "자율 전공책",
+      "kind": "paged",
+      "pages": 150,
+      "deadline": "2026-09-04",
+      "deadline_rule": "착수 후 2주",
+      "edit_full_days": 1
+    },
+    {
+      "id": "bible-storytelling",
+      "name": "성경 스토리텔링",
+      "kind": "paged",
+      "pages": 200,
+      "deadline": "2026-09-24",
+      "deadline_rule": "착수 후 1달",
+      "edit_full_days": 1
+    },
+    {
+      "id": "lebanon",
+      "name": "레바논의 시내",
+      "kind": "paged",
+      "pages": 470,
+      "deadline": "2026-10-23",
+      "deadline_rule": "착수 후 2달",
+      "edit_full_days": 0,
+      "continuous": true,
+      "notes": "전 기간 매 녹음일에 반드시 배치(중간중간 계속 진행). 마감보다 평일 15일 앞서 완료.",
+      "planned_finish": "2026-10-02"
+    }
+  ],
+  "capacity": {
+    "weekdays": 30,
+    "youtube_full_days": 6,
+    "edit_full_days": 2,
+    "recording_days": 22,
+    "required_pages": 820,
+    "cap_capacity_pages": 880,
+    "avg_per_recording_day": 37.3,
+    "slack_pages": 60
+  }
+}
