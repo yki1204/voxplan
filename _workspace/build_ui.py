@@ -310,6 +310,9 @@ footer{border-top:1px solid var(--rule);padding-top:18px;font-size:11.5px;color:
 .tk__emoji{font-size:38px;line-height:1}
 .tk__name{font-size:17px;font-weight:700;letter-spacing:-.01em}
 .tk__note{font-size:12px;color:var(--ink-2);text-align:center;max-width:26ch}
+.tk__cond{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--accent);
+  font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.cp--grand .tk__cond{color:var(--bk-lb)}
 .tk__sn{margin-top:6px;font-family:"IBM Plex Mono",monospace;font-size:11.5px;font-weight:500;
   letter-spacing:.05em;color:var(--muted);border-top:1px dashed var(--rule);
   padding-top:8px;width:100%;text-align:center}

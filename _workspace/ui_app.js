@@ -193,15 +193,29 @@
      체크인 마일스톤에 걸어 두었다. 발견 전에는 화면에 아무 흔적도 없고,
      발견하면 한 번 팝업으로 축하한 뒤 획득 목록에 남는다 — 나중에 다시 열어
      캡처할 수 있어야 하므로 사라지게 두지 않는다. */
+  /* n주차까지의 계획 페이지 누적. 임계값을 하드코딩하지 않고 PLAN 에서 계산해,
+     일정이 바뀌면 보상 시점도 함께 따라가게 한다. */
+  function planThroughWeek(n) {
+    var t = 0;
+    PLAN.weeks.slice(0, n).forEach(function (w) { w.days.forEach(function (d) {
+      d.blocks.forEach(function (bl) {
+        if (bl.pages && BOOKS[bl.book].paged) t += bl.pages;
+      });
+    }); });
+    return t;
+  }
+
   var COUPONS = [
     { id: "coffee",   code: "COFFEE",   emoji: "☕", name: "커피 쿠폰",
-      lead: "첫 녹음을 기록했다",
-      note: "시작이 제일 어렵다. 한 잔 하고 가자.",
-      test: function (pr) { return pr.recorded > 0; } },
+      week: 2,
+      lead: "2주차 분량을 채웠다",
+      note: "여기까지 오면 습관이 붙는다. 커피 한 잔.",
+      test: function (pr) { return pr.recorded >= planThroughWeek(2); } },
     { id: "icecream", code: "ICECREAM", emoji: "🍨", name: "아이스크림 쿠폰",
-      lead: "전체 분량의 절반을 넘겼다",
-      note: "목도 마음도 식힐 때다.",
-      test: function (pr) { return pr.recorded >= Math.ceil(pr.total / 2); } },
+      week: 4,
+      lead: "4주차 분량을 채웠다",
+      note: "남은 건 마지막 2주. 목도 마음도 식힐 때다.",
+      test: function (pr) { return pr.recorded >= planThroughWeek(4); } },
     { id: "gopchang", code: "GOPCHANG", emoji: "🔥", name: "곱창 쿠폰",
       lead: "마지막 일정까지 전부 끝냈다",
       note: "820페이지와 전일 일정 전부. 이건 곱창이어야 한다.",
@@ -258,6 +272,9 @@
           '<span class="tk__emoji" aria-hidden="true">' + c.emoji + '</span>' +
           '<span class="tk__name">' + esc(c.name) + '</span>' +
           '<span class="tk__note">' + esc(c.note) + '</span>' +
+          '<span class="tk__cond">' + (c.week
+            ? "누적 " + planThroughWeek(c.week) + "p 달성"
+            : "전체 " + PLAN.totalPages + "p + 전일 일정 전부 완료") + '</span>' +
           '<span class="tk__sn">' + serial(c, ST.found[c.id]) + '</span>' +
         '</div>' +
         '<p class="cp__ask"><b>이 화면을 캡처해서 개발자에게 보내주세요.</b><br>' +
