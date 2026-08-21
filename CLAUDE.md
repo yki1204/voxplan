@@ -16,6 +16,7 @@
 | 2026-08-21 | 초기 구성 (에이전트 4 / 스킬 5) | 전체 | - |
 | 2026-08-21 | 레바논의 시내 470p·2달로 변경, 종료일 10/02 재산정 | _workspace/*, index.html | 사용자 범위 변경 요청 |
 | 2026-08-21 | 일별 실적 체크인 + 주말 이월 + 진행률 기능 추가 | skills/daily-progress-tracking, agents/progress-analyst, skills/schedule-ui-rendering, skills/recording-schedule-orchestrator(Phase 6 신설), index.html | 실적 대비 진도 추적 요청 — 미달 시 전체 재배분 대신 주말 잔여로 흡수 |
+| 2026-08-21 | 숨겨둔 쿠폰 3종(커피/아이스크림/곱창) 추가 | index.html, skills/daily-progress-tracking | 마일스톤 보상 |
 | 2026-08-21 | GitHub 공개 레포 초기 push + Pages 배포 | 전체 | 정적 호스팅 공개 |
 | 2026-08-21 | 주말 보충 칸 버그 수정: 정산 대상 판정에 실적 유무 반영, 배정/잔여 분리 | index.html, skills/daily-progress-tracking | 시작일 전 입력 시 주말 칸이 '예정'에 머물고, 보충 입력이 잔여에 반영되지 않음 |
 | 2026-08-21 | 제목 변경: 낭독 녹음 배차표 → 녹음 일정 스케줄 | index.html, README.md | 사용자 요청 |

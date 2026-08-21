@@ -256,6 +256,55 @@ footer{border-top:1px solid var(--rule);padding-top:18px;font-size:11.5px;color:
   .pg__books li{grid-template-columns:5.6em 1fr 5em}
   .pg__stats{justify-content:center}
 }
+
+/* ── 쿠폰 ── */
+.cpr{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;padding:11px 14px;
+  border:1px dashed var(--rule);border-radius:10px;background:var(--surface-2)}
+.cpr__label{font-family:"Archivo",sans-serif;font-size:10px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.cpr__chip{display:inline-flex;align-items:center;gap:6px;font-family:inherit;font-size:12.5px;
+  font-weight:600;color:var(--ink);background:var(--surface);border:1px solid var(--rule);
+  border-radius:20px;padding:4px 12px 4px 9px;cursor:pointer}
+.cpr__chip:hover{border-color:var(--accent);color:var(--accent)}
+.cpr__hint{font-size:11.5px;color:var(--muted);margin-left:auto}
+
+.cpdlg{border:0;padding:0;background:none;max-width:min(430px,92vw)}
+.cpdlg::backdrop{background:rgba(8,14,16,.62)}
+.cp{display:flex;flex-direction:column;gap:13px;padding:26px 26px 22px;border-radius:16px;
+  background:var(--surface);border:1px solid var(--rule);box-shadow:var(--shadow);
+  animation:cpIn .34s cubic-bezier(.2,.9,.3,1)}
+@keyframes cpIn{from{opacity:0;transform:scale(.94) translateY(8px)}to{opacity:1;transform:none}}
+.cp__eyebrow{margin:0;font-family:"Archivo",sans-serif;font-size:10px;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+.cp__hd{font-size:19px;font-weight:700;letter-spacing:-.01em}
+.cp__ask{margin:0;font-size:12.5px;line-height:1.6;color:var(--ink-2)}
+.cp__ask b{color:var(--ink)}
+.cp__close{margin-top:2px;font-family:"Archivo",sans-serif;font-size:11.5px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--surface);background:var(--accent);
+  border:0;padding:9px 14px;border-radius:7px;cursor:pointer;align-self:flex-start}
+.cp__close:hover{filter:brightness(1.1)}
+
+/* 티켓: 양옆에 절취 노치 */
+.tk{position:relative;display:flex;flex-direction:column;align-items:center;gap:5px;
+  padding:20px 22px;border:2px dashed var(--accent);border-radius:12px;
+  background:var(--surface-2);overflow:hidden}
+.tk::before,.tk::after{content:"";position:absolute;top:50%;width:16px;height:16px;
+  border-radius:50%;background:var(--surface);border:2px dashed var(--accent);
+  transform:translateY(-50%)}
+.tk::before{left:-9px;clip-path:inset(0 0 0 50%)}
+.tk::after{right:-9px;clip-path:inset(0 50% 0 0)}
+.tk__emoji{font-size:38px;line-height:1}
+.tk__name{font-size:17px;font-weight:700;letter-spacing:-.01em}
+.tk__note{font-size:12px;color:var(--ink-2);text-align:center;max-width:26ch}
+.tk__sn{margin-top:6px;font-family:"IBM Plex Mono",monospace;font-size:11.5px;font-weight:500;
+  letter-spacing:.05em;color:var(--muted);border-top:1px dashed var(--rule);
+  padding-top:8px;width:100%;text-align:center}
+.cp--grand .tk{border-color:var(--bk-lb);background:color-mix(in srgb,var(--bk-lb) 8%,var(--surface-2))}
+.cp--grand .tk::before,.cp--grand .tk::after{border-color:var(--bk-lb)}
+.cp--grand .cp__eyebrow{color:var(--bk-lb)}
+.cp--grand .cp__close{background:var(--bk-lb)}
+.cp--grand .tk__emoji{font-size:44px}
+
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 <script id="plan" type="application/json">{"start":"2026-08-24","end":"2026-10-02","cap":40,"bandLo":30,"totalPages":820,"recDays":22,"avg":37.3,"weekdays":30,"books":[{"id":"classics-youtube","name":"고전 유튜브","hue":"yt","paged":false,"total":0,"deadline":null},{"id":"major-book","name":"자율 전공책","hue":"mj","paged":true,"total":150,"deadline":"2026-09-04"},{"id":"bible-storytelling","name":"성경 스토리텔링","hue":"bb","paged":true,"total":200,"deadline":"2026-09-24"},{"id":"lebanon","name":"레바논의 시내","hue":"lb","paged":true,"total":470,"deadline":"2026-10-23"}],"weeks":[{"n":1,"days":[{"date":"2026-08-24","dow":"월","type":"full_day","total":0,"note":"","blocks":[{"book":"classics-youtube","pages":null,"kind":"record","label":"전일 녹음","session":""}]},{"date":"2026-08-25","dow":"화","type":"recording","total":37,"note":"","blocks":[{"book":"major-book","pages":22,"kind":"record","label":"22p","session":""},{"book":"lebanon","pages":15,"kind":"record","label":"15p","session":""}]},{"date":"2026-08-26","dow":"수","type":"recording","total":37,"note":"","blocks":[{"book":"major-book","pages":22,"kind":"record","label":"22p","session":""},{"book":"lebanon","pages":15,"kind":"record","label":"15p","session":""}]},{"date":"2026-08-27","dow":"목","type":"recording","total":37,"note":"","blocks":[{"book":"major-book","pages":22,"kind":"record","label":"22p","session":""},{"book":"lebanon","pages":15,"kind":"record","label":"15p","session":""}]},{"date":"2026-08-28","dow":"금","type":"recording","total":37,"note":"","blocks":[{"book":"major-book","pages":22,"kind":"record","label":"22p","session":""},{"book":"lebanon","pages":15,"kind":"record","label":"15p","session":""}]}],"weekend":"2026-08-29","span":"8/24 – 8/28"},{"n":2,"days":[{"date":"2026-08-31","dow":"월","type":"full_day","total":0,"note":"","blocks":[{"book":"classics-youtube","pages":null,"kind":"record","label":"전일 녹음","session":""}]},{"date":"2026-09-01","dow":"화","type":"recording","total":37,"note":"","blocks":[{"book":"major-book","pages":21,"kind":"record","label":"21p","session":""},{"book":"lebanon","pages":16,"kind":"record","label":"16p","session":""}]},{"date":"2026-09-02","dow":"수","type":"recording","total":37,"note":"","blocks":[{"book":"major-book","pages":21,"kind":"record","label":"21p","session":""},{"book":"lebanon","pages":16,"kind":"record","label":"16p","session":""}]},{"date":"2026-09-03","dow":"목","type":"recording","total":37,"note":"","blocks":[{"book":"major-book","pages":20,"kind":"record","label":"20p","session":""},{"book":"lebanon","pages":17,"kind":"record","label":"17p","session":""}]},{"date":"2026-09-04","dow":"금","type":"full_day","total":0,"note":"","blocks":[{"book":"major-book","pages":null,"kind":"edit","label":"전일 편집","session":""}]}],"weekend":"2026-09-05","span":"8/31 – 9/4"},{"n":3,"days":[{"date":"2026-09-07","dow":"월","type":"full_day","total":0,"note":"","blocks":[{"book":"classics-youtube","pages":null,"kind":"record","label":"전일 녹음","session":""}]},{"date":"2026-09-08","dow":"화","type":"recording","total":38,"note":"","blocks":[{"book":"bible-storytelling","pages":20,"kind":"record","label":"20p","session":""},{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":""}]},{"date":"2026-09-09","dow":"수","type":"recording","total":38,"note":"","blocks":[{"book":"bible-storytelling","pages":20,"kind":"record","label":"20p","session":""},{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":""}]},{"date":"2026-09-10","dow":"목","type":"recording","total":38,"note":"","blocks":[{"book":"bible-storytelling","pages":20,"kind":"record","label":"20p","session":""},{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":""}]},{"date":"2026-09-11","dow":"금","type":"recording","total":38,"note":"","blocks":[{"book":"bible-storytelling","pages":20,"kind":"record","label":"20p","session":""},{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":""}]}],"weekend":"2026-09-12","span":"9/7 – 9/11"},{"n":4,"days":[{"date":"2026-09-14","dow":"월","type":"full_day","total":0,"note":"","blocks":[{"book":"classics-youtube","pages":null,"kind":"record","label":"전일 녹음","session":""}]},{"date":"2026-09-15","dow":"화","type":"recording","total":38,"note":"","blocks":[{"book":"bible-storytelling","pages":20,"kind":"record","label":"20p","session":""},{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":""}]},{"date":"2026-09-16","dow":"수","type":"recording","total":38,"note":"","blocks":[{"book":"bible-storytelling","pages":20,"kind":"record","label":"20p","session":""},{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":""}]},{"date":"2026-09-17","dow":"목","type":"recording","total":38,"note":"","blocks":[{"book":"bible-storytelling","pages":20,"kind":"record","label":"20p","session":""},{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":""}]},{"date":"2026-09-18","dow":"금","type":"recording","total":38,"note":"","blocks":[{"book":"bible-storytelling","pages":20,"kind":"record","label":"20p","session":""},{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":""}]}],"weekend":"2026-09-19","span":"9/14 – 9/18"},{"n":5,"days":[{"date":"2026-09-21","dow":"월","type":"full_day","total":0,"note":"","blocks":[{"book":"classics-youtube","pages":null,"kind":"record","label":"전일 녹음","session":""}]},{"date":"2026-09-22","dow":"화","type":"recording","total":38,"note":"","blocks":[{"book":"bible-storytelling","pages":20,"kind":"record","label":"20p","session":""},{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":""}]},{"date":"2026-09-23","dow":"수","type":"recording","total":38,"note":"","blocks":[{"book":"bible-storytelling","pages":20,"kind":"record","label":"20p","session":""},{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":""}]},{"date":"2026-09-24","dow":"목","type":"full_day","total":0,"note":"","blocks":[{"book":"bible-storytelling","pages":null,"kind":"edit","label":"전일 편집","session":""}]},{"date":"2026-09-25","dow":"금","type":"recording","total":37,"note":"타 도서 마감 완료 구간 — 서로 다른 장을 오전/오후로 분리","blocks":[{"book":"lebanon","pages":19,"kind":"record","label":"19p","session":"오전"},{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":"오후"}]}],"weekend":"2026-09-26","span":"9/21 – 9/25"},{"n":6,"days":[{"date":"2026-09-28","dow":"월","type":"full_day","total":0,"note":"","blocks":[{"book":"classics-youtube","pages":null,"kind":"record","label":"전일 녹음","session":""}]},{"date":"2026-09-29","dow":"화","type":"recording","total":36,"note":"타 도서 마감 완료 구간 — 서로 다른 장을 오전/오후로 분리","blocks":[{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":"오전"},{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":"오후"}]},{"date":"2026-09-30","dow":"수","type":"recording","total":36,"note":"타 도서 마감 완료 구간 — 서로 다른 장을 오전/오후로 분리","blocks":[{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":"오전"},{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":"오후"}]},{"date":"2026-10-01","dow":"목","type":"recording","total":36,"note":"타 도서 마감 완료 구간 — 서로 다른 장을 오전/오후로 분리","blocks":[{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":"오전"},{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":"오후"}]},{"date":"2026-10-02","dow":"금","type":"recording","total":36,"note":"타 도서 마감 완료 구간 — 서로 다른 장을 오전/오후로 분리","blocks":[{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":"오전"},{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":"오후"}]}],"weekend":"2026-10-03","span":"9/28 – 10/2"}]}</script>
@@ -286,6 +335,7 @@ footer{border-top:1px solid var(--rule);padding-top:18px;font-size:11.5px;color:
     </div>
     <p id="storeNote" class="storenote"></p>
     <div id="progress"></div>
+    <div id="coupons" class="cpr" hidden></div>
   </section>
 
   <section class="sec">
@@ -386,6 +436,8 @@ footer{border-top:1px solid var(--rule);padding-top:18px;font-size:11.5px;color:
     </div>
   </section>
 
+  <dialog id="cpDlg" class="cpdlg"></dialog>
+
   <footer>
     <span>계획 검증: 하드 제약 <b>FAIL 0</b> (마감·상한·총량·상주 배치·주간 케이던스·근무일)</span>
     <span class="mono">voxplan · 2026-08-24→2026-10-02</span>
@@ -404,14 +456,15 @@ footer{border-top:1px solid var(--rule);padding-top:18px;font-size:11.5px;color:
      저장 자체가 막힌 환경(시크릿 창, 사이트 데이터 차단)에서는 조용히 잃는 대신
      그 사실을 화면에 표시한다. */
   var LSKEY = "voxplan.checkins.v1";
-  var ST = { v: 1, ts: 0, actuals: {}, done: {} };
+  var ST = { v: 1, ts: 0, actuals: {}, done: {}, found: {} };
   var storable = true;
 
   function norm(o) {
     if (!o || typeof o !== "object") return null;
     return { v: 1, ts: +o.ts || 0,
              actuals: o.actuals && typeof o.actuals === "object" ? o.actuals : {},
-             done: o.done && typeof o.done === "object" ? o.done : {} };
+             done: o.done && typeof o.done === "object" ? o.done : {},
+             found: o.found && typeof o.found === "object" ? o.found : {} };
   }
   function probe() {
     try {
@@ -581,6 +634,103 @@ footer{border-top:1px solid var(--rule);padding-top:18px;font-size:11.5px;color:
     return { k: "ok", t: "계획대로", d: "미달 없음. 평일 계획 유지." };
   }
 
+  /* ── 숨겨둔 쿠폰 ──────────────────────────────────────────────────────────
+     체크인 마일스톤에 걸어 두었다. 발견 전에는 화면에 아무 흔적도 없고,
+     발견하면 한 번 팝업으로 축하한 뒤 획득 목록에 남는다 — 나중에 다시 열어
+     캡처할 수 있어야 하므로 사라지게 두지 않는다. */
+  var COUPONS = [
+    { id: "coffee",   code: "COFFEE",   emoji: "☕", name: "커피 쿠폰",
+      lead: "첫 녹음을 기록했다",
+      note: "시작이 제일 어렵다. 한 잔 하고 가자.",
+      test: function (pr) { return pr.recorded > 0; } },
+    { id: "icecream", code: "ICECREAM", emoji: "🍨", name: "아이스크림 쿠폰",
+      lead: "전체 분량의 절반을 넘겼다",
+      note: "목도 마음도 식힐 때다.",
+      test: function (pr) { return pr.recorded >= Math.ceil(pr.total / 2); } },
+    { id: "gopchang", code: "GOPCHANG", emoji: "🔥", name: "곱창 쿠폰",
+      lead: "마지막 일정까지 전부 끝냈다",
+      note: "820페이지와 전일 일정 전부. 이건 곱창이어야 한다.",
+      grand: true,
+      test: function (pr) { return allComplete(pr); } }
+  ];
+
+  /* 전체 완료: 페이지 도서는 전량 이상, 전일 일정(전일 녹음·편집)은 모두 완료 */
+  function allComplete(pr) {
+    for (var i = 0; i < PAGED.length; i++) {
+      var b = PAGED[i];
+      if (pr.books[b.id].rec < b.total) return false;
+    }
+    var ok = true;
+    PLAN.weeks.forEach(function (w) { w.days.forEach(function (d) {
+      if (d.type === "full_day" && !ST.done[d.date]) ok = false;
+    }); });
+    return ok;
+  }
+
+  function serial(c, ts) {
+    var d = new Date(ts), ymd = String(d.getFullYear()).slice(2) +
+      String(d.getMonth() + 1).padStart(2, "0") + String(d.getDate()).padStart(2, "0");
+    var seed = c.code + ymd, n = 0;
+    for (var i = 0; i < seed.length; i++) n = (n * 31 + seed.charCodeAt(i)) % 1296;
+    return "VXP-" + c.code + "-" + ymd + "-" +
+           n.toString(36).toUpperCase().padStart(2, "0");
+  }
+
+  var queue = [];
+  function checkCoupons() {
+    var pr = progress(), fresh = [];
+    COUPONS.forEach(function (c) {
+      if (ST.found[c.id]) return;
+      if (!c.test(pr)) return;
+      ST.found[c.id] = Date.now();
+      fresh.push(c);
+    });
+    if (!fresh.length) return;
+    save(); renderCoupons();
+    queue = queue.concat(fresh);
+    if (queue.length === fresh.length) showNext();
+  }
+  function showNext() {
+    var c = queue[0];
+    if (!c) return;
+    var dlg = document.getElementById("cpDlg");
+    if (!dlg) { queue.shift(); return showNext(); }
+    dlg.innerHTML =
+      '<div class="cp' + (c.grand ? " cp--grand" : "") + '">' +
+        '<p class="cp__eyebrow">' + (c.grand ? "최종 보상" : "숨겨둔 쿠폰 발견") + '</p>' +
+        '<h2 class="cp__hd">축하합니다 — ' + esc(c.lead) + '</h2>' +
+        '<div class="tk">' +
+          '<span class="tk__emoji" aria-hidden="true">' + c.emoji + '</span>' +
+          '<span class="tk__name">' + esc(c.name) + '</span>' +
+          '<span class="tk__note">' + esc(c.note) + '</span>' +
+          '<span class="tk__sn">' + serial(c, ST.found[c.id]) + '</span>' +
+        '</div>' +
+        '<p class="cp__ask"><b>이 화면을 캡처해서 개발자에게 보내주세요.</b><br>' +
+          '쿠폰 번호가 함께 찍혀야 사용할 수 있습니다.</p>' +
+        '<button class="cp__close" type="button" data-cpclose>받았습니다</button>' +
+      '</div>';
+    if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
+  }
+  function closeCoupon() {
+    var dlg = document.getElementById("cpDlg");
+    if (dlg) { if (dlg.close) dlg.close(); else dlg.removeAttribute("open"); }
+    queue.shift();
+    if (queue.length) setTimeout(showNext, 260);
+  }
+  function renderCoupons() {
+    var box = document.getElementById("coupons");
+    if (!box) return;
+    var got = COUPONS.filter(function (c) { return ST.found[c.id]; });
+    if (!got.length) { box.innerHTML = ""; box.hidden = true; return; }
+    box.hidden = false;
+    box.innerHTML = '<span class="cpr__label">획득한 쿠폰</span>' +
+      got.map(function (c) {
+        return '<button class="cpr__chip" type="button" data-cpopen="' + c.id + '">' +
+          '<span aria-hidden="true">' + c.emoji + '</span>' + esc(c.name) + '</button>';
+      }).join("") +
+      '<span class="cpr__hint">눌러서 다시 열고 캡처할 수 있습니다</span>';
+  }
+
   /* ── 렌더 조각 ────────────────────────────────────────────────────────── */
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) {
     return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
@@ -719,6 +869,7 @@ footer{border-top:1px solid var(--rule);padding-top:18px;font-size:11.5px;color:
   function render() {
     var weeks = computeWeeks(), pr = progress();
     document.getElementById("progress").innerHTML = progressHTML(weeks, pr);
+    renderCoupons();
     document.getElementById("weeks").innerHTML = PLAN.weeks.map(function (w, i) {
       return '<section class="wk" data-wk="' + w.n + '">' +
         '<header class="wk__hd" data-wkhd="' + w.n + '">' + weekHeadHTML(weeks[i]) + '</header>' +
@@ -765,28 +916,39 @@ footer{border-top:1px solid var(--rule);padding-top:18px;font-size:11.5px;color:
     });
   }
 
+  var cpTimer = null;
+  function laterCheck() { clearTimeout(cpTimer); cpTimer = setTimeout(checkCoupons, 900); }
+
   /* ── 이벤트 ───────────────────────────────────────────────────────────── */
   document.addEventListener("input", function (e) {
     var t = e.target;
     if (!t.classList || !t.classList.contains("ck__in")) return;
     setAct(t.dataset.date, t.dataset.book,
            Math.max(0, Math.min(199, parseInt(t.value, 10) || 0)));
-    save(); refresh(t);
+    save(); refresh(t); laterCheck();
   });
   document.addEventListener("change", function (e) {
     var t = e.target;
     if (!t.dataset || !t.dataset.done) return;
     if (t.checked) ST.done[t.dataset.done] = true; else delete ST.done[t.dataset.done];
-    save();
+    save(); laterCheck();
   });
   document.addEventListener("click", function (e) {
-    var b = e.target.closest && e.target.closest("[data-fill]");
+    var t = e.target;
+    if (t.closest && t.closest("[data-cpclose]")) { closeCoupon(); return; }
+    var open = t.closest && t.closest("[data-cpopen]");
+    if (open) {
+      var c = COUPONS.filter(function (x) { return x.id === open.dataset.cpopen; })[0];
+      if (c) { queue = [c]; showNext(); }
+      return;
+    }
+    var b = t.closest && t.closest("[data-fill]");
     if (!b) return;
     PLAN.weeks.forEach(function (w) { w.days.forEach(function (d) {
       if (d.date !== b.dataset.fill) return;
       d.blocks.forEach(function (bl) { if (bl.pages) setAct(d.date, bl.book, bl.pages); });
     }); });
-    save(); render();
+    save(); render(); laterCheck();
   });
 
   boot();

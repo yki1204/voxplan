@@ -11,14 +11,15 @@
      저장 자체가 막힌 환경(시크릿 창, 사이트 데이터 차단)에서는 조용히 잃는 대신
      그 사실을 화면에 표시한다. */
   var LSKEY = "voxplan.checkins.v1";
-  var ST = { v: 1, ts: 0, actuals: {}, done: {} };
+  var ST = { v: 1, ts: 0, actuals: {}, done: {}, found: {} };
   var storable = true;
 
   function norm(o) {
     if (!o || typeof o !== "object") return null;
     return { v: 1, ts: +o.ts || 0,
              actuals: o.actuals && typeof o.actuals === "object" ? o.actuals : {},
-             done: o.done && typeof o.done === "object" ? o.done : {} };
+             done: o.done && typeof o.done === "object" ? o.done : {},
+             found: o.found && typeof o.found === "object" ? o.found : {} };
   }
   function probe() {
     try {
@@ -188,6 +189,103 @@
     return { k: "ok", t: "계획대로", d: "미달 없음. 평일 계획 유지." };
   }
 
+  /* ── 숨겨둔 쿠폰 ──────────────────────────────────────────────────────────
+     체크인 마일스톤에 걸어 두었다. 발견 전에는 화면에 아무 흔적도 없고,
+     발견하면 한 번 팝업으로 축하한 뒤 획득 목록에 남는다 — 나중에 다시 열어
+     캡처할 수 있어야 하므로 사라지게 두지 않는다. */
+  var COUPONS = [
+    { id: "coffee",   code: "COFFEE",   emoji: "☕", name: "커피 쿠폰",
+      lead: "첫 녹음을 기록했다",
+      note: "시작이 제일 어렵다. 한 잔 하고 가자.",
+      test: function (pr) { return pr.recorded > 0; } },
+    { id: "icecream", code: "ICECREAM", emoji: "🍨", name: "아이스크림 쿠폰",
+      lead: "전체 분량의 절반을 넘겼다",
+      note: "목도 마음도 식힐 때다.",
+      test: function (pr) { return pr.recorded >= Math.ceil(pr.total / 2); } },
+    { id: "gopchang", code: "GOPCHANG", emoji: "🔥", name: "곱창 쿠폰",
+      lead: "마지막 일정까지 전부 끝냈다",
+      note: "820페이지와 전일 일정 전부. 이건 곱창이어야 한다.",
+      grand: true,
+      test: function (pr) { return allComplete(pr); } }
+  ];
+
+  /* 전체 완료: 페이지 도서는 전량 이상, 전일 일정(전일 녹음·편집)은 모두 완료 */
+  function allComplete(pr) {
+    for (var i = 0; i < PAGED.length; i++) {
+      var b = PAGED[i];
+      if (pr.books[b.id].rec < b.total) return false;
+    }
+    var ok = true;
+    PLAN.weeks.forEach(function (w) { w.days.forEach(function (d) {
+      if (d.type === "full_day" && !ST.done[d.date]) ok = false;
+    }); });
+    return ok;
+  }
+
+  function serial(c, ts) {
+    var d = new Date(ts), ymd = String(d.getFullYear()).slice(2) +
+      String(d.getMonth() + 1).padStart(2, "0") + String(d.getDate()).padStart(2, "0");
+    var seed = c.code + ymd, n = 0;
+    for (var i = 0; i < seed.length; i++) n = (n * 31 + seed.charCodeAt(i)) % 1296;
+    return "VXP-" + c.code + "-" + ymd + "-" +
+           n.toString(36).toUpperCase().padStart(2, "0");
+  }
+
+  var queue = [];
+  function checkCoupons() {
+    var pr = progress(), fresh = [];
+    COUPONS.forEach(function (c) {
+      if (ST.found[c.id]) return;
+      if (!c.test(pr)) return;
+      ST.found[c.id] = Date.now();
+      fresh.push(c);
+    });
+    if (!fresh.length) return;
+    save(); renderCoupons();
+    queue = queue.concat(fresh);
+    if (queue.length === fresh.length) showNext();
+  }
+  function showNext() {
+    var c = queue[0];
+    if (!c) return;
+    var dlg = document.getElementById("cpDlg");
+    if (!dlg) { queue.shift(); return showNext(); }
+    dlg.innerHTML =
+      '<div class="cp' + (c.grand ? " cp--grand" : "") + '">' +
+        '<p class="cp__eyebrow">' + (c.grand ? "최종 보상" : "숨겨둔 쿠폰 발견") + '</p>' +
+        '<h2 class="cp__hd">축하합니다 — ' + esc(c.lead) + '</h2>' +
+        '<div class="tk">' +
+          '<span class="tk__emoji" aria-hidden="true">' + c.emoji + '</span>' +
+          '<span class="tk__name">' + esc(c.name) + '</span>' +
+          '<span class="tk__note">' + esc(c.note) + '</span>' +
+          '<span class="tk__sn">' + serial(c, ST.found[c.id]) + '</span>' +
+        '</div>' +
+        '<p class="cp__ask"><b>이 화면을 캡처해서 개발자에게 보내주세요.</b><br>' +
+          '쿠폰 번호가 함께 찍혀야 사용할 수 있습니다.</p>' +
+        '<button class="cp__close" type="button" data-cpclose>받았습니다</button>' +
+      '</div>';
+    if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
+  }
+  function closeCoupon() {
+    var dlg = document.getElementById("cpDlg");
+    if (dlg) { if (dlg.close) dlg.close(); else dlg.removeAttribute("open"); }
+    queue.shift();
+    if (queue.length) setTimeout(showNext, 260);
+  }
+  function renderCoupons() {
+    var box = document.getElementById("coupons");
+    if (!box) return;
+    var got = COUPONS.filter(function (c) { return ST.found[c.id]; });
+    if (!got.length) { box.innerHTML = ""; box.hidden = true; return; }
+    box.hidden = false;
+    box.innerHTML = '<span class="cpr__label">획득한 쿠폰</span>' +
+      got.map(function (c) {
+        return '<button class="cpr__chip" type="button" data-cpopen="' + c.id + '">' +
+          '<span aria-hidden="true">' + c.emoji + '</span>' + esc(c.name) + '</button>';
+      }).join("") +
+      '<span class="cpr__hint">눌러서 다시 열고 캡처할 수 있습니다</span>';
+  }
+
   /* ── 렌더 조각 ────────────────────────────────────────────────────────── */
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) {
     return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
@@ -326,6 +424,7 @@
   function render() {
     var weeks = computeWeeks(), pr = progress();
     document.getElementById("progress").innerHTML = progressHTML(weeks, pr);
+    renderCoupons();
     document.getElementById("weeks").innerHTML = PLAN.weeks.map(function (w, i) {
       return '<section class="wk" data-wk="' + w.n + '">' +
         '<header class="wk__hd" data-wkhd="' + w.n + '">' + weekHeadHTML(weeks[i]) + '</header>' +
@@ -372,28 +471,39 @@
     });
   }
 
+  var cpTimer = null;
+  function laterCheck() { clearTimeout(cpTimer); cpTimer = setTimeout(checkCoupons, 900); }
+
   /* ── 이벤트 ───────────────────────────────────────────────────────────── */
   document.addEventListener("input", function (e) {
     var t = e.target;
     if (!t.classList || !t.classList.contains("ck__in")) return;
     setAct(t.dataset.date, t.dataset.book,
            Math.max(0, Math.min(199, parseInt(t.value, 10) || 0)));
-    save(); refresh(t);
+    save(); refresh(t); laterCheck();
   });
   document.addEventListener("change", function (e) {
     var t = e.target;
     if (!t.dataset || !t.dataset.done) return;
     if (t.checked) ST.done[t.dataset.done] = true; else delete ST.done[t.dataset.done];
-    save();
+    save(); laterCheck();
   });
   document.addEventListener("click", function (e) {
-    var b = e.target.closest && e.target.closest("[data-fill]");
+    var t = e.target;
+    if (t.closest && t.closest("[data-cpclose]")) { closeCoupon(); return; }
+    var open = t.closest && t.closest("[data-cpopen]");
+    if (open) {
+      var c = COUPONS.filter(function (x) { return x.id === open.dataset.cpopen; })[0];
+      if (c) { queue = [c]; showNext(); }
+      return;
+    }
+    var b = t.closest && t.closest("[data-fill]");
     if (!b) return;
     PLAN.weeks.forEach(function (w) { w.days.forEach(function (d) {
       if (d.date !== b.dataset.fill) return;
       d.blocks.forEach(function (bl) { if (bl.pages) setAct(d.date, bl.book, bl.pages); });
     }); });
-    save(); render();
+    save(); render(); laterCheck();
   });
 
   boot();

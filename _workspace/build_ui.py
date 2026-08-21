@@ -270,6 +270,55 @@ footer{border-top:1px solid var(--rule);padding-top:18px;font-size:11.5px;color:
   .pg__books li{grid-template-columns:5.6em 1fr 5em}
   .pg__stats{justify-content:center}
 }
+
+/* ── 쿠폰 ── */
+.cpr{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;padding:11px 14px;
+  border:1px dashed var(--rule);border-radius:10px;background:var(--surface-2)}
+.cpr__label{font-family:"Archivo",sans-serif;font-size:10px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.cpr__chip{display:inline-flex;align-items:center;gap:6px;font-family:inherit;font-size:12.5px;
+  font-weight:600;color:var(--ink);background:var(--surface);border:1px solid var(--rule);
+  border-radius:20px;padding:4px 12px 4px 9px;cursor:pointer}
+.cpr__chip:hover{border-color:var(--accent);color:var(--accent)}
+.cpr__hint{font-size:11.5px;color:var(--muted);margin-left:auto}
+
+.cpdlg{border:0;padding:0;background:none;max-width:min(430px,92vw)}
+.cpdlg::backdrop{background:rgba(8,14,16,.62)}
+.cp{display:flex;flex-direction:column;gap:13px;padding:26px 26px 22px;border-radius:16px;
+  background:var(--surface);border:1px solid var(--rule);box-shadow:var(--shadow);
+  animation:cpIn .34s cubic-bezier(.2,.9,.3,1)}
+@keyframes cpIn{from{opacity:0;transform:scale(.94) translateY(8px)}to{opacity:1;transform:none}}
+.cp__eyebrow{margin:0;font-family:"Archivo",sans-serif;font-size:10px;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+.cp__hd{font-size:19px;font-weight:700;letter-spacing:-.01em}
+.cp__ask{margin:0;font-size:12.5px;line-height:1.6;color:var(--ink-2)}
+.cp__ask b{color:var(--ink)}
+.cp__close{margin-top:2px;font-family:"Archivo",sans-serif;font-size:11.5px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--surface);background:var(--accent);
+  border:0;padding:9px 14px;border-radius:7px;cursor:pointer;align-self:flex-start}
+.cp__close:hover{filter:brightness(1.1)}
+
+/* 티켓: 양옆에 절취 노치 */
+.tk{position:relative;display:flex;flex-direction:column;align-items:center;gap:5px;
+  padding:20px 22px;border:2px dashed var(--accent);border-radius:12px;
+  background:var(--surface-2);overflow:hidden}
+.tk::before,.tk::after{content:"";position:absolute;top:50%;width:16px;height:16px;
+  border-radius:50%;background:var(--surface);border:2px dashed var(--accent);
+  transform:translateY(-50%)}
+.tk::before{left:-9px;clip-path:inset(0 0 0 50%)}
+.tk::after{right:-9px;clip-path:inset(0 50% 0 0)}
+.tk__emoji{font-size:38px;line-height:1}
+.tk__name{font-size:17px;font-weight:700;letter-spacing:-.01em}
+.tk__note{font-size:12px;color:var(--ink-2);text-align:center;max-width:26ch}
+.tk__sn{margin-top:6px;font-family:"IBM Plex Mono",monospace;font-size:11.5px;font-weight:500;
+  letter-spacing:.05em;color:var(--muted);border-top:1px dashed var(--rule);
+  padding-top:8px;width:100%;text-align:center}
+.cp--grand .tk{border-color:var(--bk-lb);background:color-mix(in srgb,var(--bk-lb) 8%,var(--surface-2))}
+.cp--grand .tk::before,.cp--grand .tk::after{border-color:var(--bk-lb)}
+.cp--grand .cp__eyebrow{color:var(--bk-lb)}
+.cp--grand .cp__close{background:var(--bk-lb)}
+.cp--grand .tk__emoji{font-size:44px}
+
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 """
 
@@ -342,6 +391,7 @@ HTML = f'''<title>녹음 일정 스케줄</title>
     </div>
     <p id="storeNote" class="storenote"></p>
     <div id="progress"></div>
+    <div id="coupons" class="cpr" hidden></div>
   </section>
 
   <section class="sec">
@@ -416,6 +466,8 @@ HTML = f'''<title>녹음 일정 스케줄</title>
          해당 5일은 오전·오후 2세션으로 나눠 서로 다른 장을 배정해 완화만 해뒀다.</p>
     </div>
   </section>
+
+  <dialog id="cpDlg" class="cpdlg"></dialog>
 
   <footer>
     <span>계획 검증: 하드 제약 <b>FAIL 0</b> (마감·상한·총량·상주 배치·주간 케이던스·근무일)</span>
