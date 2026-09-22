@@ -73,8 +73,8 @@ CLAUDE.md 변경 이력이 이전 세션의 결론이다. 대화 기록을 복�
 **스킬:** `daily-progress-tracking`
 **출력:** `_workspace/04_progress-analyst_status.md`
 
-실적은 브라우저 `localStorage`(키 `voxplan.checkins.v1`)에만 있어 **읽을 수 없다.**
-사용자에게 화면 캡처나 콘솔 값(`localStorage.getItem("voxplan.checkins.v1")`)을 요청해
+실적은 브라우저 `localStorage`(키 `voxplan.checkins.v2`)에만 있어 **읽을 수 없다.**
+사용자에게 화면 캡처나 콘솔 값(`localStorage.getItem("voxplan.checkins.v2")`)을 요청해
 계획과 대조한다. 받지 못했으면 추정하지 말고 "실적 미확인"으로 보고한다.
 
 - **절대 진행률과 계획 대비 편차를 항상 함께** 낸다. 하나만으로는 상태를 알 수 없다.

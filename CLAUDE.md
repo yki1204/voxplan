@@ -13,7 +13,7 @@
 - Claude 아티팩트: https://claude.ai/code/artifact/af7bf90c-9247-4d33-8678-acce3a3d8c5d
   (새 대화에서 갱신할 때는 이 URL을 `Artifact` 도구의 `url` 로 넘겨야 같은 링크가 유지된다)
 
-**실적 데이터:** 브라우저 `localStorage` 키 `voxplan.checkins.v1`. 레포·서버에 없고
+**실적 데이터:** 브라우저 `localStorage` 키 `voxplan.checkins.v2`. 레포·서버에 없고
 읽을 수 없으므로, 진도 분석이 필요하면 사용자에게 값을 요청한다.
 
 **변경 이력:** (위에서 아래로 시간순)
@@ -30,3 +30,7 @@
 | 2026-08-21 | 쿠폰 임계값을 주차 계획 누적으로 변경 (커피 2주차·아이스크림 4주차) | index.html, skills/daily-progress-tracking | 1p 문턱이 테스트 중 즉시 소진됨 |
 | 2026-08-21 | 분할 세션일 실적 유실 버그 수정 (입력란을 도서 단위로 통합) | index.html, skills/daily-progress-tracking | 같은 도서 입력란이 2개여서 뒤 값이 앞을 덮음 — 9/25 19p·W6 각 18p가 주말로 오이월 |
 | 2026-08-21 | 문서 drift 정정: 실적 입력원을 localStorage 로 통일, 변경 이력 시간순 정렬 | agents/progress-analyst, skills/recording-schedule-orchestrator, CLAUDE.md, README.md | 존재하지 않는 data/checkins.json 을 가리키고 있었음 |
+| 2026-09-22 | **plan revision 2** — 남은 분량 기준 전면 재배분 (2026-09-23→11-06, 7주, 449p). 성경 132p@15p/일 + 전일 편집 1일, 레바논 197p@20p/일 + 11/6까지 편집, 레바논 편집일에 사도행전 10p 동반, 유튜브 전일 녹음 월→화, 9/24·9/25·10/5·10/9 제외. 자율 전공책 제거, 사도행전 신규 | _workspace/*, index.html, README.md | 사용자 요건 변경 |
+| 2026-09-22 | 실적 저장 키 v1→v2 + 쿠폰 획득 이력만 1회 마이그레이션 | index.html, CLAUDE.md, README.md, agents/progress-analyst, skills/recording-schedule-orchestrator | 잔여 분량 기준 계획에 구 실적이 합산되면 진행률이 100%를 넘음 |
+| 2026-09-22 | 검증 스크립트를 신 스키마 대응으로 수정 (제외일/편집+녹음 혼합일/케이던스 요일/min_books 제약파일 참조), 검사 12종 추가 | skills/schedule-validation/scripts/validate_schedule.py | 구 스키마 전제로 오탐 2건 — 판정 기준은 유지·강화 |
+| 2026-09-22 | `발성 1종` 칩·`무발성` 태그 제거, 쿠폰 3종→2종 (아이스크림=전체의 절반 225p, 곱창=완주) | index.html | 사용자 요청 |

@@ -7,7 +7,7 @@
   --ground:#EDF1F2; --surface:#FFFFFF; --surface-2:#F6F8F8;
   --ink:#12181A; --ink-2:#3E4C50; --muted:#6B7C81; --rule:#D2DBDD;
   --accent:#12655A; --caution:#9E5A12; --bad:#A32E28; --good:#12655A;
-  --bk-yt:#8C6A11; --bk-mj:#12655A; --bk-bb:#414CA0; --bk-lb:#9C3F3A;
+  --bk-yt:#8C6A11; --bk-ac:#8E3A72; --bk-bb:#414CA0; --bk-lb:#9C3F3A;
   --shadow:0 1px 2px rgba(16,32,36,.06),0 8px 20px -14px rgba(16,32,36,.22);
 }
 @media (prefers-color-scheme:dark){
@@ -15,7 +15,7 @@
     --ground:#0D1214; --surface:#161D1F; --surface-2:#1C2427;
     --ink:#E7EEEF; --ink-2:#B4C3C6; --muted:#85989C; --rule:#283336;
     --accent:#4CC0AC; --caution:#D79A4A; --bad:#E8837A; --good:#4CC0AC;
-    --bk-yt:#D2A73E; --bk-mj:#3FB6A2; --bk-bb:#8B95E4; --bk-lb:#DE7C74;
+    --bk-yt:#D2A73E; --bk-ac:#E79AD0; --bk-bb:#8B95E4; --bk-lb:#DE7C74;
     --shadow:0 1px 2px rgba(0,0,0,.5),0 10px 26px -16px rgba(0,0,0,.8);
   }
 }
@@ -23,7 +23,7 @@
   --ground:#0D1214; --surface:#161D1F; --surface-2:#1C2427;
   --ink:#E7EEEF; --ink-2:#B4C3C6; --muted:#85989C; --rule:#283336;
   --accent:#4CC0AC; --caution:#D79A4A; --bad:#E8837A; --good:#4CC0AC;
-  --bk-yt:#D2A73E; --bk-mj:#3FB6A2; --bk-bb:#8B95E4; --bk-lb:#DE7C74;
+  --bk-yt:#D2A73E; --bk-ac:#E79AD0; --bk-bb:#8B95E4; --bk-lb:#DE7C74;
   --shadow:0 1px 2px rgba(0,0,0,.5),0 10px 26px -16px rgba(0,0,0,.8);
 }
 *{box-sizing:border-box}
@@ -100,7 +100,7 @@ input:focus-visible,button:focus-visible{outline:2px solid var(--accent);
 .pg__stats dd i{font-style:normal;font-size:11.5px;color:var(--muted)}
 .pg__stats dd.is-neg{color:var(--bad)} .pg__stats dd.is-pos{color:var(--good)}
 .pg__books{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
-.pg__books li{display:grid;grid-template-columns:6.6em 1fr 5.4em;align-items:center;gap:10px;
+.pg__books li{display:grid;grid-template-columns:8em 1fr 5.4em;align-items:center;gap:10px;
   font-size:12.5px}
 .pg__nm{color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pg__bar{position:relative;height:7px;border-radius:4px;background:var(--surface-2);
@@ -130,7 +130,8 @@ input:focus-visible,button:focus-visible{outline:2px solid var(--accent);
 .rail__bar--cadence i{flex:1;border-radius:2px;background:var(--bk)}
 .rail__meta{margin:0;font-size:11.5px;color:var(--muted)}
 .rail__meta b{color:var(--ink-2);font-weight:600;font-family:"IBM Plex Mono",monospace}
-.rail__ok{color:var(--accent);font-weight:600}
+.rail__ok{color:var(--accent);font-weight:600;white-space:nowrap}
+.rail__warn{color:var(--caution);font-weight:600;white-space:nowrap}
 
 /* ── weeks ── */
 #weeks{display:flex;flex-direction:column;gap:18px}
@@ -180,6 +181,30 @@ input:focus-visible,button:focus-visible{outline:2px solid var(--accent);
 .day__note{margin:0;font-size:10px;line-height:1.45;color:var(--muted);padding-left:12px;
   border-left:2px solid var(--rule)}
 
+/* 편집 블록 — 목을 쓰지 않는 작업. 입력칸이 없고 일부하 합계에도 들어가지 않는다.
+   녹음 블록의 채워진 사각형에 대해 테두리만 있는 사각형 + 점선 윤곽으로 구분한다. */
+.ed{display:grid;grid-template-columns:8px 1fr;align-items:center;gap:6px;font-size:12px;
+  padding:3px 6px 3px 5px;border:1px dashed color-mix(in srgb,var(--bk) 45%,var(--rule));
+  border-radius:5px;background:color-mix(in srgb,var(--bk) 7%,transparent)}
+.ed__mark{width:7px;height:7px;border-radius:2px;border:1.5px solid var(--bk);background:none}
+.ed__nm{color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.ed__nm em{font-style:normal;color:var(--muted)}
+/* 제외일 — 근무일이지만 배분 대상이 아니다. 빈 칸으로 두면 이유를 알 수 없다. */
+.xday{background:none;border:1px dashed var(--rule);border-radius:10px;padding:11px 12px 10px;
+  display:flex;flex-direction:column;gap:9px}
+.xday .day__date,.xday .day__dow{color:var(--muted)}
+.xday__txt{margin:0;flex:1;display:flex;flex-direction:column;gap:3px;justify-content:center;
+  font-size:12px;font-weight:600;color:var(--muted)}
+.xday__txt em{font-style:normal;font-size:10px;font-weight:400;line-height:1.45}
+/* 계획 시작 전 요일 자리 — 월~금 정렬을 유지하기 위한 빈 슬롯 */
+.void{border:0;background:none;box-shadow:none}
+
+/* 총량이 확정되지 않은 도서 표시 */
+.est{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:9.5px;
+  color:var(--caution);border:1px dashed color-mix(in srgb,var(--caution) 50%,var(--rule));
+  border-radius:3px;padding:0 4px;margin-left:5px;white-space:nowrap;vertical-align:1px;
+  font-variant-numeric:tabular-nums}
+
 /* meter */
 .meter{display:flex;align-items:center;gap:7px}
 .meter__track{position:relative;flex:1;height:7px;border-radius:4px;background:var(--surface-2);
@@ -188,6 +213,7 @@ input:focus-visible,button:focus-visible{outline:2px solid var(--accent);
 .meter.is-high .meter__fill{background:var(--caution)}
 .meter.is-over .meter__fill{background:var(--bad)}
 .meter__tick{position:absolute;top:-2px;bottom:-2px;width:1px;background:var(--rule)}
+.meter__tick--tgt{background:var(--ink-2);opacity:.3}
 .meter__plan{position:absolute;top:-3px;bottom:-3px;width:1.5px;background:var(--ink-2);opacity:.5}
 .meter__val{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;
   font-variant-numeric:tabular-nums;color:var(--ink-2)}
@@ -244,6 +270,7 @@ th{font-family:"Archivo",sans-serif;font-size:10px;letter-spacing:.09em;text-tra
 tr:last-child td{border-bottom:0}
 td.num{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}
 tr.is-pick td{background:color-mix(in srgb,var(--accent) 9%,transparent);font-weight:500}
+tr.is-peak td{background:color-mix(in srgb,var(--caution) 11%,transparent);font-weight:500}
 .pill{display:inline-block;font-family:"Archivo",sans-serif;font-size:9px;font-weight:700;
   letter-spacing:.09em;text-transform:uppercase;color:var(--surface);background:var(--accent);
   padding:2px 6px;border-radius:3px;margin-left:5px;vertical-align:1px}
@@ -254,7 +281,7 @@ footer{border-top:1px solid var(--rule);padding-top:18px;font-size:11.5px;color:
   display:flex;flex-wrap:wrap;gap:5px 16px}
 @media (max-width:760px){
   .pg{grid-template-columns:1fr;justify-items:center;text-align:center}
-  .pg__books li{grid-template-columns:5.6em 1fr 5em}
+  .pg__books li{grid-template-columns:7.6em 1fr 5em}
   .pg__stats{justify-content:center}
 }
 
@@ -311,23 +338,23 @@ footer{border-top:1px solid var(--rule);padding-top:18px;font-size:11.5px;color:
 
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
-<script id="plan" type="application/json">{"start":"2026-08-24","end":"2026-10-02","cap":40,"bandLo":30,"totalPages":820,"recDays":22,"avg":37.3,"weekdays":30,"books":[{"id":"classics-youtube","name":"고전 유튜브","hue":"yt","paged":false,"total":0,"deadline":null},{"id":"major-book","name":"자율 전공책","hue":"mj","paged":true,"total":150,"deadline":"2026-09-04"},{"id":"bible-storytelling","name":"성경 스토리텔링","hue":"bb","paged":true,"total":200,"deadline":"2026-09-24"},{"id":"lebanon","name":"레바논의 시내","hue":"lb","paged":true,"total":470,"deadline":"2026-10-23"}],"weeks":[{"n":1,"days":[{"date":"2026-08-24","dow":"월","type":"full_day","total":0,"note":"","blocks":[{"book":"classics-youtube","pages":null,"kind":"record","label":"전일 녹음","session":""}]},{"date":"2026-08-25","dow":"화","type":"recording","total":37,"note":"","blocks":[{"book":"major-book","pages":22,"kind":"record","label":"22p","session":""},{"book":"lebanon","pages":15,"kind":"record","label":"15p","session":""}]},{"date":"2026-08-26","dow":"수","type":"recording","total":37,"note":"","blocks":[{"book":"major-book","pages":22,"kind":"record","label":"22p","session":""},{"book":"lebanon","pages":15,"kind":"record","label":"15p","session":""}]},{"date":"2026-08-27","dow":"목","type":"recording","total":37,"note":"","blocks":[{"book":"major-book","pages":22,"kind":"record","label":"22p","session":""},{"book":"lebanon","pages":15,"kind":"record","label":"15p","session":""}]},{"date":"2026-08-28","dow":"금","type":"recording","total":37,"note":"","blocks":[{"book":"major-book","pages":22,"kind":"record","label":"22p","session":""},{"book":"lebanon","pages":15,"kind":"record","label":"15p","session":""}]}],"weekend":"2026-08-29","span":"8/24 – 8/28"},{"n":2,"days":[{"date":"2026-08-31","dow":"월","type":"full_day","total":0,"note":"","blocks":[{"book":"classics-youtube","pages":null,"kind":"record","label":"전일 녹음","session":""}]},{"date":"2026-09-01","dow":"화","type":"recording","total":37,"note":"","blocks":[{"book":"major-book","pages":21,"kind":"record","label":"21p","session":""},{"book":"lebanon","pages":16,"kind":"record","label":"16p","session":""}]},{"date":"2026-09-02","dow":"수","type":"recording","total":37,"note":"","blocks":[{"book":"major-book","pages":21,"kind":"record","label":"21p","session":""},{"book":"lebanon","pages":16,"kind":"record","label":"16p","session":""}]},{"date":"2026-09-03","dow":"목","type":"recording","total":37,"note":"","blocks":[{"book":"major-book","pages":20,"kind":"record","label":"20p","session":""},{"book":"lebanon","pages":17,"kind":"record","label":"17p","session":""}]},{"date":"2026-09-04","dow":"금","type":"full_day","total":0,"note":"","blocks":[{"book":"major-book","pages":null,"kind":"edit","label":"전일 편집","session":""}]}],"weekend":"2026-09-05","span":"8/31 – 9/4"},{"n":3,"days":[{"date":"2026-09-07","dow":"월","type":"full_day","total":0,"note":"","blocks":[{"book":"classics-youtube","pages":null,"kind":"record","label":"전일 녹음","session":""}]},{"date":"2026-09-08","dow":"화","type":"recording","total":38,"note":"","blocks":[{"book":"bible-storytelling","pages":20,"kind":"record","label":"20p","session":""},{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":""}]},{"date":"2026-09-09","dow":"수","type":"recording","total":38,"note":"","blocks":[{"book":"bible-storytelling","pages":20,"kind":"record","label":"20p","session":""},{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":""}]},{"date":"2026-09-10","dow":"목","type":"recording","total":38,"note":"","blocks":[{"book":"bible-storytelling","pages":20,"kind":"record","label":"20p","session":""},{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":""}]},{"date":"2026-09-11","dow":"금","type":"recording","total":38,"note":"","blocks":[{"book":"bible-storytelling","pages":20,"kind":"record","label":"20p","session":""},{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":""}]}],"weekend":"2026-09-12","span":"9/7 – 9/11"},{"n":4,"days":[{"date":"2026-09-14","dow":"월","type":"full_day","total":0,"note":"","blocks":[{"book":"classics-youtube","pages":null,"kind":"record","label":"전일 녹음","session":""}]},{"date":"2026-09-15","dow":"화","type":"recording","total":38,"note":"","blocks":[{"book":"bible-storytelling","pages":20,"kind":"record","label":"20p","session":""},{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":""}]},{"date":"2026-09-16","dow":"수","type":"recording","total":38,"note":"","blocks":[{"book":"bible-storytelling","pages":20,"kind":"record","label":"20p","session":""},{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":""}]},{"date":"2026-09-17","dow":"목","type":"recording","total":38,"note":"","blocks":[{"book":"bible-storytelling","pages":20,"kind":"record","label":"20p","session":""},{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":""}]},{"date":"2026-09-18","dow":"금","type":"recording","total":38,"note":"","blocks":[{"book":"bible-storytelling","pages":20,"kind":"record","label":"20p","session":""},{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":""}]}],"weekend":"2026-09-19","span":"9/14 – 9/18"},{"n":5,"days":[{"date":"2026-09-21","dow":"월","type":"full_day","total":0,"note":"","blocks":[{"book":"classics-youtube","pages":null,"kind":"record","label":"전일 녹음","session":""}]},{"date":"2026-09-22","dow":"화","type":"recording","total":38,"note":"","blocks":[{"book":"bible-storytelling","pages":20,"kind":"record","label":"20p","session":""},{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":""}]},{"date":"2026-09-23","dow":"수","type":"recording","total":38,"note":"","blocks":[{"book":"bible-storytelling","pages":20,"kind":"record","label":"20p","session":""},{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":""}]},{"date":"2026-09-24","dow":"목","type":"full_day","total":0,"note":"","blocks":[{"book":"bible-storytelling","pages":null,"kind":"edit","label":"전일 편집","session":""}]},{"date":"2026-09-25","dow":"금","type":"recording","total":37,"note":"타 도서 마감 완료 구간 — 서로 다른 장을 오전/오후로 분리","blocks":[{"book":"lebanon","pages":19,"kind":"record","label":"19p","session":"오전"},{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":"오후"}]}],"weekend":"2026-09-26","span":"9/21 – 9/25"},{"n":6,"days":[{"date":"2026-09-28","dow":"월","type":"full_day","total":0,"note":"","blocks":[{"book":"classics-youtube","pages":null,"kind":"record","label":"전일 녹음","session":""}]},{"date":"2026-09-29","dow":"화","type":"recording","total":36,"note":"타 도서 마감 완료 구간 — 서로 다른 장을 오전/오후로 분리","blocks":[{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":"오전"},{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":"오후"}]},{"date":"2026-09-30","dow":"수","type":"recording","total":36,"note":"타 도서 마감 완료 구간 — 서로 다른 장을 오전/오후로 분리","blocks":[{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":"오전"},{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":"오후"}]},{"date":"2026-10-01","dow":"목","type":"recording","total":36,"note":"타 도서 마감 완료 구간 — 서로 다른 장을 오전/오후로 분리","blocks":[{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":"오전"},{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":"오후"}]},{"date":"2026-10-02","dow":"금","type":"recording","total":36,"note":"타 도서 마감 완료 구간 — 서로 다른 장을 오전/오후로 분리","blocks":[{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":"오전"},{"book":"lebanon","pages":18,"kind":"record","label":"18p","session":"오후"}]}],"weekend":"2026-10-03","span":"9/28 – 10/2"}]}</script>
+<script id="plan" type="application/json">{"start":"2026-09-23","end":"2026-11-06","cap":40,"bandLo":10,"target":35,"totalPages":449,"recDays":22,"fullDays":7,"maxLoad":35,"avg":20.4,"scheduledDays":29,"excluded":["2026-09-24","2026-09-25","2026-10-05","2026-10-09"],"books":[{"id":"classics-youtube","name":"고전 유튜브","hue":"yt","paged":false,"total":0,"deadline":null},{"id":"bible-storytelling","name":"성경 스토리텔링","hue":"bb","paged":true,"total":132,"deadline":"2026-10-15"},{"id":"lebanon","name":"레바논의 시내","hue":"lb","paged":true,"total":197,"deadline":"2026-11-06"},{"id":"acts","name":"사도행전","hue":"ac","paged":true,"total":120,"deadline":"2026-11-06","est":true}],"weeks":[{"n":1,"monday":"2026-09-21","span":"9/23","weekend":"2026-09-26","excluded":["2026-09-24","2026-09-25"],"days":[{"date":"2026-09-23","dow":"수","type":"recording","total":35,"note":"","blocks":[{"book":"bible-storytelling","pages":15,"kind":"record","label":"15p","session":""},{"book":"lebanon","pages":20,"kind":"record","label":"20p","session":""}]}]},{"n":2,"monday":"2026-09-28","span":"9/28 – 10/2","weekend":"2026-10-03","excluded":[],"days":[{"date":"2026-09-28","dow":"월","type":"recording","total":35,"note":"","blocks":[{"book":"bible-storytelling","pages":15,"kind":"record","label":"15p","session":""},{"book":"lebanon","pages":20,"kind":"record","label":"20p","session":""}]},{"date":"2026-09-29","dow":"화","type":"full_day","total":0,"note":"주간 고전 유튜브 전일 녹음 — 페이지 예산 비소비","blocks":[{"book":"classics-youtube","pages":null,"kind":"record","label":"전일 녹음","session":""}]},{"date":"2026-09-30","dow":"수","type":"recording","total":35,"note":"","blocks":[{"book":"bible-storytelling","pages":15,"kind":"record","label":"15p","session":""},{"book":"lebanon","pages":20,"kind":"record","label":"20p","session":""}]},{"date":"2026-10-01","dow":"목","type":"recording","total":35,"note":"","blocks":[{"book":"bible-storytelling","pages":15,"kind":"record","label":"15p","session":""},{"book":"lebanon","pages":20,"kind":"record","label":"20p","session":""}]},{"date":"2026-10-02","dow":"금","type":"recording","total":35,"note":"","blocks":[{"book":"bible-storytelling","pages":15,"kind":"record","label":"15p","session":""},{"book":"lebanon","pages":20,"kind":"record","label":"20p","session":""}]}]},{"n":3,"monday":"2026-10-05","span":"10/6 – 10/8","weekend":"2026-10-10","excluded":["2026-10-05","2026-10-09"],"days":[{"date":"2026-10-06","dow":"화","type":"full_day","total":0,"note":"주간 고전 유튜브 전일 녹음 — 페이지 예산 비소비","blocks":[{"book":"classics-youtube","pages":null,"kind":"record","label":"전일 녹음","session":""}]},{"date":"2026-10-07","dow":"수","type":"recording","total":35,"note":"","blocks":[{"book":"bible-storytelling","pages":15,"kind":"record","label":"15p","session":""},{"book":"lebanon","pages":20,"kind":"record","label":"20p","session":""}]},{"date":"2026-10-08","dow":"목","type":"recording","total":35,"note":"","blocks":[{"book":"bible-storytelling","pages":15,"kind":"record","label":"15p","session":""},{"book":"lebanon","pages":20,"kind":"record","label":"20p","session":""}]}]},{"n":4,"monday":"2026-10-12","span":"10/12 – 10/16","weekend":"2026-10-17","excluded":[],"days":[{"date":"2026-10-12","dow":"월","type":"recording","total":35,"note":"","blocks":[{"book":"bible-storytelling","pages":15,"kind":"record","label":"15p","session":""},{"book":"lebanon","pages":20,"kind":"record","label":"20p","session":""}]},{"date":"2026-10-13","dow":"화","type":"full_day","total":0,"note":"주간 고전 유튜브 전일 녹음 — 페이지 예산 비소비","blocks":[{"book":"classics-youtube","pages":null,"kind":"record","label":"전일 녹음","session":""}]},{"date":"2026-10-14","dow":"수","type":"recording","total":32,"note":"","blocks":[{"book":"bible-storytelling","pages":12,"kind":"record","label":"12p","session":""},{"book":"lebanon","pages":20,"kind":"record","label":"20p","session":""}]},{"date":"2026-10-15","dow":"목","type":"full_day","total":0,"note":"성경 스토리텔링 전일 편집 — 이 하루가 레바논 잔여 17p를 10-16으로 밀어낸다","blocks":[{"book":"bible-storytelling","pages":null,"kind":"edit","label":"전일 편집","session":""}]},{"date":"2026-10-16","dow":"금","type":"recording","total":17,"note":"레바논 녹음 완료일 — 잔여 도서가 1종뿐이라 혼합 불가(부하 17p)","blocks":[{"book":"lebanon","pages":17,"kind":"record","label":"17p","session":""}]}]},{"n":5,"monday":"2026-10-19","span":"10/19 – 10/23","weekend":"2026-10-24","excluded":[],"days":[{"date":"2026-10-19","dow":"월","type":"recording","total":10,"note":"","blocks":[{"book":"lebanon","pages":null,"kind":"edit","label":"편집","session":""},{"book":"acts","pages":10,"kind":"record","label":"10p","session":""}]},{"date":"2026-10-20","dow":"화","type":"full_day","total":0,"note":"주간 고전 유튜브 전일 녹음 — 페이지 예산 비소비","blocks":[{"book":"classics-youtube","pages":null,"kind":"record","label":"전일 녹음","session":""}]},{"date":"2026-10-21","dow":"수","type":"recording","total":10,"note":"","blocks":[{"book":"lebanon","pages":null,"kind":"edit","label":"편집","session":""},{"book":"acts","pages":10,"kind":"record","label":"10p","session":""}]},{"date":"2026-10-22","dow":"목","type":"recording","total":10,"note":"","blocks":[{"book":"lebanon","pages":null,"kind":"edit","label":"편집","session":""},{"book":"acts","pages":10,"kind":"record","label":"10p","session":""}]},{"date":"2026-10-23","dow":"금","type":"recording","total":10,"note":"","blocks":[{"book":"lebanon","pages":null,"kind":"edit","label":"편집","session":""},{"book":"acts","pages":10,"kind":"record","label":"10p","session":""}]}]},{"n":6,"monday":"2026-10-26","span":"10/26 – 10/30","weekend":"2026-10-31","excluded":[],"days":[{"date":"2026-10-26","dow":"월","type":"recording","total":10,"note":"","blocks":[{"book":"lebanon","pages":null,"kind":"edit","label":"편집","session":""},{"book":"acts","pages":10,"kind":"record","label":"10p","session":""}]},{"date":"2026-10-27","dow":"화","type":"full_day","total":0,"note":"주간 고전 유튜브 전일 녹음 — 페이지 예산 비소비","blocks":[{"book":"classics-youtube","pages":null,"kind":"record","label":"전일 녹음","session":""}]},{"date":"2026-10-28","dow":"수","type":"recording","total":10,"note":"","blocks":[{"book":"lebanon","pages":null,"kind":"edit","label":"편집","session":""},{"book":"acts","pages":10,"kind":"record","label":"10p","session":""}]},{"date":"2026-10-29","dow":"목","type":"recording","total":10,"note":"","blocks":[{"book":"lebanon","pages":null,"kind":"edit","label":"편집","session":""},{"book":"acts","pages":10,"kind":"record","label":"10p","session":""}]},{"date":"2026-10-30","dow":"금","type":"recording","total":10,"note":"","blocks":[{"book":"lebanon","pages":null,"kind":"edit","label":"편집","session":""},{"book":"acts","pages":10,"kind":"record","label":"10p","session":""}]}]},{"n":7,"monday":"2026-11-02","span":"11/2 – 11/6","weekend":"2026-11-07","excluded":[],"days":[{"date":"2026-11-02","dow":"월","type":"recording","total":10,"note":"","blocks":[{"book":"lebanon","pages":null,"kind":"edit","label":"편집","session":""},{"book":"acts","pages":10,"kind":"record","label":"10p","session":""}]},{"date":"2026-11-03","dow":"화","type":"full_day","total":0,"note":"주간 고전 유튜브 전일 녹음 — 페이지 예산 비소비","blocks":[{"book":"classics-youtube","pages":null,"kind":"record","label":"전일 녹음","session":""}]},{"date":"2026-11-04","dow":"수","type":"recording","total":10,"note":"","blocks":[{"book":"lebanon","pages":null,"kind":"edit","label":"편집","session":""},{"book":"acts","pages":10,"kind":"record","label":"10p","session":""}]},{"date":"2026-11-05","dow":"목","type":"recording","total":10,"note":"","blocks":[{"book":"lebanon","pages":null,"kind":"edit","label":"편집","session":""},{"book":"acts","pages":10,"kind":"record","label":"10p","session":""}]},{"date":"2026-11-06","dow":"금","type":"recording","total":10,"note":"","blocks":[{"book":"lebanon","pages":null,"kind":"edit","label":"편집","session":""},{"book":"acts","pages":10,"kind":"record","label":"10p","session":""}]}]}]}</script>
 
 <div class="wrap">
   <header class="hero">
     <span class="eyebrow">Voxplan · Recording Schedule</span>
     <h1>녹음 일정 스케줄</h1>
-    <p>도서 4종을 성대 부하 상한 <b>40p/일</b> 안에서 배분한 6주 계획.
+    <p>도서 4종을 성대 부하 상한 <b>40p/일</b> 안에서 배분한 7주 계획.
        각 칸에 <b>실제 녹음한 페이지</b>를 입력하면 미달분이 그 주 <b>주말 보충 칸</b>으로 모이고,
        평일 계획은 그대로 유지된다.</p>
-    <span class="hero__range">2026-08-24 → 2026-10-02 · 평일 30일 · 녹음 22일</span>
+    <span class="hero__range">2026-09-23 → 2026-11-06 · 일정 29일(녹음 22 · 전일 점유 7) · 제외 4일</span>
     <dl class="stats">
-      <div class="stat"><dt>총 녹음량</dt><dd>820<i>p</i></dd></div>
+      <div class="stat"><dt>총 녹음량</dt><dd>449<i>p</i></dd></div>
       <div class="stat"><dt>녹음일</dt><dd>22<i>일</i></dd></div>
-      <div class="stat"><dt>일평균 계획</dt><dd>37.3<i>p</i></dd></div>
+      <div class="stat"><dt>전일 점유</dt><dd>7<i>일</i></dd></div>
+      <div class="stat"><dt>최대 일부하</dt><dd>35<i>p</i></dd></div>
       <div class="stat"><dt>일일 상한</dt><dd>40<i>p</i></dd></div>
       <div class="stat"><dt>주말 완충</dt><dd>80<i>p</i></dd></div>
-      <div class="stat"><dt>마감 버퍼</dt><dd>15<i>평일</i></dd></div>
     </dl>
   </header>
 
@@ -344,26 +371,27 @@ footer{border-top:1px solid var(--rule);padding-top:18px;font-size:11.5px;color:
 
   <section class="sec">
     <h2 class="eyebrow">도서별 계획</h2>
-    <ul class="rails"><li class="rail" style="--bk:var(--bk-yt)">
+    <ul class="rails"><li class="rail" style="--bk:var(--bk-bb)">
+  <div class="rail__top"><span class="rail__dot"></span><h3>성경 스토리텔링</h3>
+    <span class="rail__amt">132p · 15p/일</span></div>
+  <div class="rail__bar"><div class="rail__fill"></div></div>
+  <p class="rail__meta">녹음 완료 <b>10/14</b> · 전일 편집 <b>10/15</b> · 마감 10/15
+    <span class="rail__warn">버퍼 0일</span></p></li><li class="rail" style="--bk:var(--bk-lb)">
+  <div class="rail__top"><span class="rail__dot"></span><h3>레바논의 시내</h3>
+    <span class="rail__amt">197p · 20p/일</span></div>
+  <div class="rail__bar"><div class="rail__fill"></div></div>
+  <p class="rail__meta">녹음 완료 <b>10/16</b> · 편집 10/19–11/6(12일) · 마감 11/6
+    <span class="rail__warn">버퍼 0일</span></p></li><li class="rail" style="--bk:var(--bk-ac)">
+  <div class="rail__top"><span class="rail__dot"></span><h3>사도행전</h3>
+    <span class="rail__amt">120p · 10p/일</span></div>
+  <div class="rail__bar"><div class="rail__fill"></div></div>
+  <p class="rail__meta"><span class="est" title="사용자가 총 페이지를 지정하지 않았다. 레바논 편집일 12일 × 10p 로 역산한 값이므로 실제 분량이 다르면 진행률 분모가 틀린다.">총량 미확정 · 일정 역산값</span><br>
+    녹음 10/19–11/6 · 12일 × 10p 로 역산 · 마감 11/6</p></li><li class="rail" style="--bk:var(--bk-yt)">
   <div class="rail__top"><span class="rail__dot"></span><h3>고전 유튜브</h3>
     <span class="rail__amt">주 1일 · 6회</span></div>
   <div class="rail__bar rail__bar--cadence"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-  <p class="rail__meta">전일 녹음 · 매주 월요일 고정 · 페이지 예산 비소비</p></li><li class="rail" style="--bk:var(--bk-mj)">
-  <div class="rail__top"><span class="rail__dot"></span><h3>자율 전공책</h3>
-    <span class="rail__amt">150p</span></div>
-  <div class="rail__bar"><div class="rail__fill"></div></div>
-  <p class="rail__meta">계획 완료 <b>9/4</b> · 마감 9/4
-    <span class="rail__ok">마감일 종료</span></p></li><li class="rail" style="--bk:var(--bk-bb)">
-  <div class="rail__top"><span class="rail__dot"></span><h3>성경 스토리텔링</h3>
-    <span class="rail__amt">200p</span></div>
-  <div class="rail__bar"><div class="rail__fill"></div></div>
-  <p class="rail__meta">계획 완료 <b>9/24</b> · 마감 9/24
-    <span class="rail__ok">마감일 종료</span></p></li><li class="rail" style="--bk:var(--bk-lb)">
-  <div class="rail__top"><span class="rail__dot"></span><h3>레바논의 시내</h3>
-    <span class="rail__amt">470p</span></div>
-  <div class="rail__bar"><div class="rail__fill"></div></div>
-  <p class="rail__meta">계획 완료 <b>10/2</b> · 마감 10/23
-    <span class="rail__ok">여유 평일 15일</span></p></li></ul>
+  <p class="rail__meta">전일 녹음 · 매주 <b>화요일</b> 고정 · 페이지 예산 비소비
+    <span class="rail__warn">휴식일 아님</span></p></li></ul>
   </section>
 
   <section class="sec">
@@ -371,30 +399,43 @@ footer{border-top:1px solid var(--rule);padding-top:18px;font-size:11.5px;color:
       <h2 class="eyebrow">주간 일정 · 실적 체크인</h2>
       <span class="sec__note">숫자칸에 실제 녹음 페이지를 입력 · <b>/n p</b> 는 그날 목표</span>
     </div>
-    <div class="legend"><span style="--bk:var(--bk-yt)"><i></i>고전 유튜브</span><span style="--bk:var(--bk-mj)"><i></i>자율 전공책</span><span style="--bk:var(--bk-bb)"><i></i>성경 스토리텔링</span><span style="--bk:var(--bk-lb)"><i></i>레바논의 시내</span>
+    <div class="legend"><span style="--bk:var(--bk-bb)"><i></i>성경 스토리텔링</span><span style="--bk:var(--bk-lb)"><i></i>레바논의 시내</span><span style="--bk:var(--bk-ac)"><i></i>사도행전</span><span style="--bk:var(--bk-yt)"><i></i>고전 유튜브</span>
+      <span><i style="border:1.5px solid var(--muted);background:none"></i>편집 블록 · 입력칸 없음</span>
       <span><i style="border:1px dashed var(--muted);background:none"></i>전일 점유(녹음·편집)</span>
     </div>
     <div id="weeks"></div>
   </section>
 
   <section class="sec">
-    <h2 class="eyebrow">종료일 대안 비교</h2>
+    <div class="sec__hd">
+      <h2 class="eyebrow">구간별 일부하 프로파일</h2>
+      <span class="sec__note">도서별 일일 속도가 지정값이라 평준화 재량이 없다 — 이 표는 선택이 아니라 결과다</span>
+    </div>
     <div class="scroll"><table>
-      <thead><tr><th>종료일</th><th>녹음일</th><th>일평균</th><th>단일도서 구간</th>
-        <th>마감 버퍼(평일)</th><th>판단</th></tr></thead>
-      <tbody><tr class="is-pick"><td>10/2<span class="pill">채택</span></td>
-  <td class="num">22일</td><td class="num">37.3p</td><td class="num">5일</td>
-  <td class="num">15</td><td>상한 40p 대비 완충 유지, 단조 구간 최소</td></tr><tr><td>10/9</td>
-  <td class="num">26일</td><td class="num">31.5p</td><td class="num">9일</td>
-  <td class="num">10</td><td>부하는 더 가볍지만 단조 구간 2배</td></tr><tr><td>10/23</td>
-  <td class="num">34일</td><td class="num">24.1p</td><td class="num">17일</td>
-  <td class="num">—</td><td>일평균이 목표 밴드 하한(30p) 미달</td></tr></tbody></table></div>
+      <thead><tr><th>구간</th><th>기간</th><th>일수</th><th>배치</th>
+        <th>일부하</th><th>상한 40p 대비</th></tr></thead>
+      <tbody><tr class="is-peak"><td>p1 병행<span class="pill">최대 부하</span></td>
+  <td class="num">9/23 – 10/14</td><td class="num">9일</td>
+  <td>성경 15p + 레바논 20p</td><td class="num">35p ×8 · 32p ×1</td>
+  <td class="num">87.5%</td></tr><tr><td>p2 성경 편집</td>
+  <td class="num">10/15</td><td class="num">1일</td>
+  <td>성경 전일 편집</td><td class="num">0p</td>
+  <td>계획 안에서 목을 온전히 쉬는 유일한 날</td></tr><tr><td>p3 레바논 잔여</td>
+  <td class="num">10/16</td><td class="num">1일</td>
+  <td>레바논 17p 단독</td><td class="num">17p</td>
+  <td class="num">42.5%</td></tr><tr><td>p4 편집 + 사도행전</td>
+  <td class="num">10/19 – 11/6</td><td class="num">12일</td>
+  <td>레바논 편집 + 사도행전 10p</td><td class="num">10p ×12</td>
+  <td class="num">25%</td></tr><tr><td>화요일 전일 녹음</td>
+  <td class="num">9/29 – 11/3</td><td class="num">6일</td>
+  <td>고전 유튜브 전일</td><td class="num">0p</td>
+  <td>페이지는 안 쓰지만 목은 쓴다</td></tr></tbody></table></div>
   </section>
 
   <section class="notes">
     <div class="note">
       <h3>미달분을 왜 재배분하지 않는가</h3>
-      <p>하루 미달마다 전체를 다시 짜면 셋이 깨진다. 매주 월요일 전일 녹음이라는 <b>리듬</b>,
+      <p>하루 미달마다 전체를 다시 짜면 셋이 깨진다. 매주 화요일 전일 녹음이라는 <b>리듬</b>,
          도서별 <b>마감 구간</b>, 그리고 <b>일부하 평준화</b>. 그래서 미달분은 평일 계획을 건드리지 않고
          그 주 <b>주말 칸</b>으로 격리한다. 주말은 원래 비어 있어 완충으로 쓸 수 있고,
          한 주 안에서 정산되므로 부채가 무한히 쌓이지 않는다.</p>
@@ -431,20 +472,50 @@ footer{border-top:1px solid var(--rule);padding-top:18px;font-size:11.5px;color:
          바뀐다. 조용히 잃는 것보다 알고 쓰는 편이 낫기 때문이다.</p>
       <p>진행률·주말잔여·이월은 저장하지 않고 매번 다시 계산한다. 계획이 바뀌면 옛 파생값은
          틀리기 때문이다.</p>
+      <p>이번 계획 개정(9/23~11/6)은 <b>남은 분량</b>을 기준으로 다시 짰기 때문에 실적도
+         <b>새로 시작</b>한다. 이전 기록(<code>voxplan.checkins.v1</code>)은 지우지 않고 그대로 남겨
+         두었고, 이미 획득한 쿠폰만 새 기록으로 옮겨 왔다.</p>
     </div>
     <div class="note">
       <h3>해결하지 못한 지점</h3>
-      <p>9/25 이후 <b>5일</b>은 도서 혼합이 불가능하다. 자율 전공책(9/4)·성경 스토리텔링(9/24)이
-         마감으로 끝나면 레바논의 시내만 남기 때문이며, 배분으로 풀 수 있는 문제가 아니다.
-         해당 5일은 오전·오후 2세션으로 나눠 서로 다른 장을 배정해 완화만 해뒀다.</p>
+      <p>10/16 이후 <b>13일</b>은 소리 내어 읽는 도서가 사도행전 <b>1종</b>뿐이다. 10/16에 레바논 녹음이
+         끝나면 혼합할 상대가 물리적으로 남지 않기 때문이며, 배분으로 풀 수 있는 문제가 아니다.</p>
+      <p>다만 이번에는 <b>세션 분할을 적용하지 않았다</b>. 일부하가 10p — 상한의 25% — 로 낮고,
+         같은 날 레바논 편집이 붙어 작업 종류는 2종이다. 10p를 오전·오후로 쪼개는 것은 실익이 없다.</p>
+      <p><b>단조로움의 실체는 부하가 아니라 기간이다</b> — 같은 도서가 3주 연속이다.
+         이건 남겨둔 문제다.</p>
+    </div>
+    <div class="note">
+      <h3>버퍼가 없다</h3>
+      <p>9/23~10/14 구간의 가용일은 <b>9일</b>이고 성경 스토리텔링이 요구하는 날도 정확히
+         <b>9일</b>이다. 여유가 <b>0</b>이다.</p>
+      <p>이 구간에서 하루가 빠지면 전체가 하루씩 밀리고, 성경 전일 편집이 10/15에서
+         <b>10/16으로</b> 밀린다. 마감 10/15가 그 자리에서 깨진다.</p>
+      <p><b>회복 레버</b> — 성경 일일 속도를 <code>15p → 17p</code> 로 올리면 132p를 8일에 소화한다
+         (17×7 + 13). 그 날 부하는 <code>17 + 20 = 37p</code> 로 <b>상한 40p 이내</b>다.
+         즉 상한을 깨지 않고 버퍼 1일을 만들 수 있다. 하루를 잃었을 때 재배분을 요청하기 전에
+         먼저 쓸 수 있는 수단이다.</p>
+    </div>
+    <div class="note">
+      <h3>화요일 전환의 대가</h3>
+      <p>고전 유튜브 전일 녹음은 <b>페이지 예산만 비소비</b>일 뿐 하루 종일 목을 쓰는 날이다.
+         <b>휴식이 아니다.</b></p>
+      <p>월요일에서 화요일로 옮기면서 <b>9/29·10/13</b> 두 번은 35p 월요일 <b>바로 다음날</b>이
+         온종일 녹음이 된다. 계획 전체에서 가장 무거운 2일 연속 구간이다. 그리고
+         <b>9/28~10/2</b>는 <code>35p → 전일 → 35p → 35p → 35p</code> — <b>5일 연속 녹음</b>,
+         휴식일 0이다.</p>
+      <p>이건 사용자 지시 사항이라 위반이 아니다. 다만 월요일 부하를 낮춰 완화하려면
+         성경을 뒤로 미뤄야 하는데, 위 노트대로 <b>p1 버퍼가 0</b>이라 그 여유가 없다.
+         현 조합에서는 완화 수단이 없다.</p>
     </div>
   </section>
 
   <dialog id="cpDlg" class="cpdlg"></dialog>
 
   <footer>
-    <span>계획 검증: 하드 제약 <b>FAIL 0</b> (마감·상한·총량·상주 배치·주간 케이던스·근무일)</span>
-    <span class="mono">voxplan · 2026-08-24→2026-10-02</span>
+    <span>계획 검증: 하드 제약 <b>FAIL 0</b> · <b>WARN 13</b>
+      (마감·상한·총량·제외일·편집 창·주간 케이던스·근무일 전수 통과 / WARN 전건은 녹음 도서 1종 13일)</span>
+    <span class="mono">voxplan · 2026-09-23→2026-11-06 · plan rev 2</span>
   </footer>
 </div>
 <script>(function () {
@@ -459,13 +530,18 @@ footer{border-top:1px solid var(--rule);padding-top:18px;font-size:11.5px;color:
      "아직 저장 안 된 몇 초"가 존재하지 않는 편이 사용자에게 안전하기 때문이다.
      저장 자체가 막힌 환경(시크릿 창, 사이트 데이터 차단)에서는 조용히 잃는 대신
      그 사실을 화면에 표시한다. */
-  var LSKEY = "voxplan.checkins.v1";
-  var ST = { v: 1, ts: 0, actuals: {}, done: {}, found: {} };
-  var storable = true;
+  /* 키를 v2 로 올린 이유: 이번 계획 개정은 도서 총량을 "남은 분량"으로 다시 잡았다
+     (성경 132p, 레바논 197p). v1 에 남아 있는 8~9월 실적을 그대로 합산하면 진행률이
+     100%를 넘고 쿠폰이 즉시 터진다. 실적은 새로 시작하되, 이미 획득한 쿠폰(found)까지
+     사라지면 안 되므로 그것만 옮겨 온다. v1 은 지우지 않는다 — 되돌릴 여지를 남긴다. */
+  var LSKEY = "voxplan.checkins.v2";
+  var LSKEY_PREV = "voxplan.checkins.v1";
+  var ST = { v: 2, ts: 0, actuals: {}, done: {}, found: {} };
+  var storable = true, migrated = false;
 
   function norm(o) {
     if (!o || typeof o !== "object") return null;
-    return { v: 1, ts: +o.ts || 0,
+    return { v: 2, ts: +o.ts || 0,
              actuals: o.actuals && typeof o.actuals === "object" ? o.actuals : {},
              done: o.done && typeof o.done === "object" ? o.done : {},
              found: o.found && typeof o.found === "object" ? o.found : {} };
@@ -486,7 +562,8 @@ footer{border-top:1px solid var(--rule);padding-top:18px;font-size:11.5px;color:
     var note = document.getElementById("storeNote");
     if (note) {
       note.textContent = storable
-        ? "이 브라우저에 저장된다. 새로 고침·탭 닫기·브라우저 재시작 후에도 유지된다. 다른 기기·다른 사람에게는 보이지 않는다."
+        ? "이 브라우저에 저장된다. 새로 고침·탭 닫기·브라우저 재시작 후에도 유지된다. 다른 기기·다른 사람에게는 보이지 않는다." +
+          (migrated ? " 계획 개정으로 실적은 새로 시작했다 — 이전 기록은 지우지 않고 남겨 두었고, 획득한 쿠폰만 옮겨 왔다." : "")
         : "이 브라우저가 저장을 막고 있어 기록이 남지 않는다. 시크릿 창이면 일반 창에서 열어라.";
       note.dataset.mode = storable ? "ok" : "blocked";
     }
@@ -504,8 +581,25 @@ footer{border-top:1px solid var(--rule);padding-top:18px;font-size:11.5px;color:
   }
   function boot() {
     storable = probe();
-    if (storable) { try { var o = norm(JSON.parse(localStorage.getItem(LSKEY))); if (o) ST = o; }
-                    catch (e) {} }
+    if (storable) {
+      var raw = null;
+      try { raw = localStorage.getItem(LSKEY); } catch (e) {}
+      if (raw !== null) {
+        try { var o = norm(JSON.parse(raw)); if (o) ST = o; } catch (e) {}
+      } else {
+        /* v2 가 아직 없을 때 딱 한 번. actuals/done 은 가져오지 않는다 — 옛 계획의
+           실적이고, 이번 분모는 잔여 기준이라 섞으면 진행률이 틀린다. */
+        try {
+          var prev = norm(JSON.parse(localStorage.getItem(LSKEY_PREV)));
+          if (prev && Object.keys(prev.found).length) {
+            ST.found = prev.found;
+            migrated = true;
+            /* ts 는 올리지 않는다 — 실적을 저장한 것이 아니므로 "기록 없음"이 정확하다 */
+            try { localStorage.setItem(LSKEY, JSON.stringify(ST)); } catch (e2) {}
+          }
+        } catch (e) {}
+      }
+    }
     render();
     status(ST.ts ? "saved" : "idle");
   }
@@ -642,37 +736,27 @@ footer{border-top:1px solid var(--rule);padding-top:18px;font-size:11.5px;color:
      체크인 마일스톤에 걸어 두었다. 발견 전에는 화면에 아무 흔적도 없고,
      발견하면 한 번 팝업으로 축하한 뒤 획득 목록에 남는다 — 나중에 다시 열어
      캡처할 수 있어야 하므로 사라지게 두지 않는다. */
-  /* n주차까지의 계획 페이지 누적. 임계값을 하드코딩하지 않고 PLAN 에서 계산해,
+  /* 중간 지점 = 전체 계획량의 절반. 임계값을 하드코딩하지 않고 PLAN 에서 계산해,
      일정이 바뀌면 보상 시점도 함께 따라가게 한다. */
-  function planThroughWeek(n) {
-    var t = 0;
-    PLAN.weeks.slice(0, n).forEach(function (w) { w.days.forEach(function (d) {
-      d.blocks.forEach(function (bl) {
-        if (bl.pages && BOOKS[bl.book].paged) t += bl.pages;
-      });
-    }); });
-    return t;
-  }
+  function halfway() { return Math.ceil(PLAN.totalPages / 2); }
 
   var COUPONS = [
-    { id: "coffee",   code: "COFFEE",   emoji: "☕", name: "커피 쿠폰",
-      week: 2,
-      lead: "2주차 분량을 채웠다",
-      note: "여기까지 오면 습관이 붙는다. 커피 한 잔.",
-      test: function (pr) { return pr.recorded >= planThroughWeek(2); } },
     { id: "icecream", code: "ICECREAM", emoji: "🍨", name: "아이스크림 쿠폰",
-      week: 4,
-      lead: "4주차 분량을 채웠다",
-      note: "남은 건 마지막 2주. 목도 마음도 식힐 때다.",
-      test: function (pr) { return pr.recorded >= planThroughWeek(4); } },
+      half: true,
+      lead: "절반을 넘겼다",
+      note: "여기가 반환점이다. 목도 마음도 식힐 때다.",
+      test: function (pr) { return pr.recorded >= halfway(); } },
     { id: "gopchang", code: "GOPCHANG", emoji: "🔥", name: "곱창 쿠폰",
       lead: "마지막 일정까지 전부 끝냈다",
-      note: "820페이지와 전일 일정 전부. 이건 곱창이어야 한다.",
+      note: "449페이지와 전일 일정 전부. 이건 곱창이어야 한다.",
       grand: true,
       test: function (pr) { return allComplete(pr); } }
   ];
 
-  /* 전체 완료: 페이지 도서는 전량 이상, 전일 일정(전일 녹음·편집)은 모두 완료 */
+  /* 전체 완료: 페이지 도서는 전량 이상, 전일 일정(전일 녹음·편집)은 모두 완료.
+     주의 — 사도행전 120p 는 사용자가 준 값이 아니라 "레바논 편집일 12일 × 10p" 로
+     역산한 값이다. 이 쿠폰의 분모에도 그 값이 그대로 들어간다. 실제 분량이 다르면
+     곱창 쿠폰이 일찍 터지거나(실제 < 120p) 끝까지 안 터진다(실제 > 120p). */
   function allComplete(pr) {
     for (var i = 0; i < PAGED.length; i++) {
       var b = PAGED[i];
@@ -721,8 +805,8 @@ footer{border-top:1px solid var(--rule);padding-top:18px;font-size:11.5px;color:
           '<span class="tk__emoji" aria-hidden="true">' + c.emoji + '</span>' +
           '<span class="tk__name">' + esc(c.name) + '</span>' +
           '<span class="tk__note">' + esc(c.note) + '</span>' +
-          '<span class="tk__cond">' + (c.week
-            ? "누적 " + planThroughWeek(c.week) + "p 달성"
+          '<span class="tk__cond">' + (c.half
+            ? "누적 " + halfway() + "p 달성 — 전체 " + PLAN.totalPages + "p의 절반"
             : "전체 " + PLAN.totalPages + "p + 전일 일정 전부 완료") + '</span>' +
           '<span class="tk__sn">' + serial(c, ST.found[c.id]) + '</span>' +
         '</div>' +
@@ -785,7 +869,9 @@ footer{border-top:1px solid var(--rule);padding-top:18px;font-size:11.5px;color:
           var p = o.total ? Math.min(100, o.rec / o.total * 100) : 0;
           var pl = o.total ? Math.min(100, o.planToDate / o.total * 100) : 0;
           return '<li style="--bk:var(--bk-' + b.hue + ')">' +
-            '<span class="pg__nm">' + esc(b.name) + '</span>' +
+            '<span class="pg__nm">' + esc(b.name) +
+              (b.est ? '<span class="est" title="총량 미확정 — 일정에서 역산한 값이라 실제 분량이 다르면 이 막대의 분모가 틀린다">역산</span>' : "") +
+            '</span>' +
             '<span class="pg__bar"><i style="width:' + p.toFixed(1) + '%"></i>' +
               '<u style="left:' + pl.toFixed(1) + '%" title="오늘까지 계획"></u></span>' +
             '<span class="pg__pg">' + o.rec + '<em>/' + o.total + 'p</em></span></li>';
@@ -796,7 +882,10 @@ footer{border-top:1px solid var(--rule);padding-top:18px;font-size:11.5px;color:
     var hi = sum > CAP ? " is-over" : sum > CAP - 2 ? " is-high" : "";
     return '<div class="meter' + hi + '"><div class="meter__track">' +
       '<div class="meter__fill" style="width:' + Math.min(100, sum / CAP * 100).toFixed(1) + '%"></div>' +
-      '<span class="meter__tick" style="left:' + (PLAN.bandLo / CAP * 100).toFixed(1) + '%"></span>' +
+      '<span class="meter__tick" style="left:' + (PLAN.bandLo / CAP * 100).toFixed(1) +
+        '%" title="밴드 하한 ' + PLAN.bandLo + 'p"></span>' +
+      '<span class="meter__tick meter__tick--tgt" style="left:' + (PLAN.target / CAP * 100).toFixed(1) +
+        '%" title="목표 상한 ' + PLAN.target + 'p"></span>' +
       '<span class="meter__plan" style="left:' + (planned / CAP * 100).toFixed(1) + '%"></span>' +
       '</div><span class="meter__val">' + sum + '<i>/' + planned + 'p</i></span></div>';
   }
@@ -817,6 +906,14 @@ footer{border-top:1px solid var(--rule);padding-top:18px;font-size:11.5px;color:
     });
     return order;
   }
+  /* 편집 블록은 목을 쓰지 않는 작업이고 페이지가 없다. dayBooks() 가 pages 없는 블록을
+     이미 걸러내므로 입력칸도, 일부하 합계도 만들지 않는다 — 여기서는 표시만 한다.
+     .ck 가 아니라 .ed 클래스를 쓰는 것도 의도적이다: refresh() 가 .ck 를 인덱스로
+     훑어 도서와 짝지으므로, 편집 행이 .ck 를 달면 짝이 어긋난다. */
+  function dayEdits(d) {
+    return d.blocks.filter(function (bl) { return bl.kind === "edit" && !bl.pages; });
+  }
+
   function dayActual(d) {
     var sum = 0;
     dayBooks(d).forEach(function (g) { sum += act(d.date, g.book); });
@@ -841,7 +938,11 @@ footer{border-top:1px solid var(--rule);padding-top:18px;font-size:11.5px;color:
         '<span class="day__dow">' + d.dow + '</span>' +
         '<button class="day__fill" type="button" data-fill="' + d.date +
           '" title="계획대로 채우기">계획대로</button></div>' +
-      '<ul class="day__blocks">' + groups.map(function (g) {
+      '<ul class="day__blocks">' + dayEdits(d).map(function (bl) {
+        return '<li class="ed" style="--bk:var(--bk-' + BOOKS[bl.book].hue + ')">' +
+          '<span class="ed__mark" aria-hidden="true"></span>' +
+          '<span class="ed__nm">' + esc(BOOKS[bl.book].name) + ' <em>· ' + esc(bl.label) + '</em></span></li>';
+      }).join("") + groups.map(function (g) {
         var a = act(d.date, g.book);
         return '<li class="ck' + (a === 0 ? "" : a >= g.pages ? " is-met" : " is-short") +
           '" style="--bk:var(--bk-' + BOOKS[g.book].hue + ')">' +
@@ -857,6 +958,36 @@ footer{border-top:1px solid var(--rule);padding-top:18px;font-size:11.5px;color:
       }).join("") + '</ul>' +
       (d.note ? '<p class="day__note">' + esc(d.note) + '</p>' : "") +
       meterHTML(sum, d.total) + '</div>';
+  }
+
+  /* 제외일은 days[] 에 없다. 그냥 비워 두면 왜 비었는지 알 수 없으므로
+     명시적으로 "일정 없음" 칸을 그린다. 계획 시작 전 요일은 월~금 정렬만 유지하는
+     빈 슬롯으로 둔다 — 첫 주가 수요일 하루뿐이라 이 정렬이 특히 중요하다. */
+  function addDays(iso, k) {
+    var p = iso.split("-");
+    return new Date(Date.UTC(+p[0], +p[1] - 1, +p[2] + k)).toISOString().slice(0, 10);
+  }
+  var DOW5 = ["월", "화", "수", "목", "금"];
+
+  function offHTML(iso, dow) {
+    return '<div class="xday"><div class="day__hd">' +
+      '<span class="day__date">' + md(iso) + '</span>' +
+      '<span class="day__dow">' + dow + '</span></div>' +
+      '<p class="xday__txt">일정 없음<em>배분에서 제외된 근무일</em></p></div>';
+  }
+
+  function weekCellsHTML(w) {
+    var byDate = {}, ex = {};
+    w.days.forEach(function (d) { byDate[d.date] = d; });
+    (w.excluded || []).forEach(function (x) { ex[x] = 1; });
+    var out = [];
+    for (var i = 0; i < 5; i++) {
+      var iso = addDays(w.monday, i);
+      out.push(byDate[iso] ? dayHTML(byDate[iso])
+             : ex[iso] ? offHTML(iso, DOW5[i])
+             : '<div class="void" aria-hidden="true"></div>');
+    }
+    return out.join("");
   }
 
   function totLine(wr) {
@@ -917,7 +1048,7 @@ footer{border-top:1px solid var(--rule);padding-top:18px;font-size:11.5px;color:
     document.getElementById("weeks").innerHTML = PLAN.weeks.map(function (w, i) {
       return '<section class="wk" data-wk="' + w.n + '">' +
         '<header class="wk__hd" data-wkhd="' + w.n + '">' + weekHeadHTML(weeks[i]) + '</header>' +
-        '<div class="wk__grid">' + w.days.map(dayHTML).join("") +
+        '<div class="wk__grid">' + weekCellsHTML(w) +
           weekendHTML(weeks[i]) + '</div></section>';
     }).join("");
   }

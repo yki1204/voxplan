@@ -1,266 +1,1448 @@
 {
   "meta": {
     "project": "voxplan",
-    "start": "2026-08-24",
-    "end": "2026-10-02",
-    "daily_page_cap": 40,
-    "daily_page_band": [
-      30,
-      40
+    "plan_revision": 2,
+    "supersedes": "_workspace_prev/02_optimizer_schedule.json (2026-08-24 ~ 2026-10-02)",
+    "generated_from": "_workspace/01_constraint-analyst_constraints.json",
+    "start": "2026-09-23",
+    "end": "2026-11-06",
+    "working_days": [
+      "MON",
+      "TUE",
+      "WED",
+      "THU",
+      "FRI"
     ],
+    "excluded_dates": [
+      "2026-09-24",
+      "2026-09-25",
+      "2026-10-05",
+      "2026-10-09"
+    ],
+    "daily_page_cap": 40,
+    "daily_page_target": 35,
+    "daily_page_band": [
+      10,
+      35
+    ],
+    "max_daily_load": 35,
+    "calendar_days": 29,
     "recording_days": 22,
-    "total_pages": 820,
-    "strategy": "마감 이른 도서(자율→성경) 우선 확정 후 잔여 용량을 상주 도서(레바논)로 충전. 일일 부하 36~38p로 평준화(상한 40p 대비 5~10% 완충).",
-    "single_book_days": 5,
-    "single_book_reason": "자율 전공책(9/4)·성경 스토리텔링(9/24) 마감 이후에는 레바논의 시내만 남으므로 도서 혼합이 물리적으로 불가 — 오전/오후 세션 분할로 완화",
-    "deadline_buffer": "레바논 마감 10/23 대비 평일 15일 조기 완료"
+    "full_day_days": 7,
+    "available_days": 23,
+    "total_pages": 449,
+    "avg_pages_per_recording_day": 20.4,
+    "strategy": "사용자가 도서별 일일 속도(성경 15p, 레바논 20p, 사도행전 10p)를 직접 지정했으므로 평준화 재량이 없다. 이 배분은 최적화 결과가 아니라 지정 속도의 전개다. p1(9일) 성경15+레바논20=35p 병행 → p2(10-15) 성경 전일 편집 → p3(10-16) 레바논 잔여 17p 완료 → p4(12일) 레바논 편집 + 사도행전 10p. 최대 일부하 35p로 상한 40p 대비 5p 완충을 유지한다.",
+    "single_book_days": 13,
+    "single_book_dates": [
+      "2026-10-16",
+      "2026-10-19",
+      "2026-10-21",
+      "2026-10-22",
+      "2026-10-23",
+      "2026-10-26",
+      "2026-10-28",
+      "2026-10-29",
+      "2026-10-30",
+      "2026-11-02",
+      "2026-11-04",
+      "2026-11-05",
+      "2026-11-06"
+    ],
+    "single_book_reason": "10-16 레바논 녹음 완료 이후 잔여 녹음 도서가 사도행전 1종뿐이라 녹음 혼합이 물리적으로 불가. 다만 p4 12일은 레바논 편집 블록(무발성)이 같은 날 붙어 작업 종류는 2종이며, 일부하가 10p(상한의 25%)로 낮아 세션 분할은 적용하지 않았다. 10-16 단독일도 17p로 짧다. 이는 완화이며 혼합 불가 자체의 해결은 아니다.",
+    "buffer_days": 0,
+    "deadline_buffer": "성경 10-15 당일 편집 완료(버퍼 0일), 레바논 녹음 10-16·편집 11-06 당일 완료(버퍼 0일), 사도행전 11-06 당일 완료(버퍼 0일)",
+    "risk_notes": [
+      "전 도서 버퍼 0일 — 가용일 하루가 빠지면 전체가 하루씩 밀리고 사도행전 배정일이 12→11일로 줄어 역산 총량이 110p 로 바뀐다.",
+      "10-15 성경 전일 편집이 레바논 마지막 17p 를 밀어내므로 레바논 녹음 완료일은 10-15 가 아니라 10-16 이다.",
+      "사도행전 120p 는 편집일 12일 x 10p 로 역산한 값이다. 실제 분량이 다르면 종료일 또는 일일 속도를 재산정해야 한다."
+    ],
+    "phases": [
+      {
+        "id": "p1-parallel",
+        "start": "2026-09-23",
+        "end": "2026-10-14",
+        "days": 9,
+        "dates": [
+          "2026-09-23",
+          "2026-09-28",
+          "2026-09-30",
+          "2026-10-01",
+          "2026-10-02",
+          "2026-10-07",
+          "2026-10-08",
+          "2026-10-12",
+          "2026-10-14"
+        ],
+        "books": [
+          "bible-storytelling",
+          "lebanon"
+        ],
+        "daily_load_pages": 35,
+        "last_day_load_pages": 32
+      },
+      {
+        "id": "p2-bible-edit",
+        "start": "2026-10-15",
+        "end": "2026-10-15",
+        "days": 1,
+        "dates": [
+          "2026-10-15"
+        ],
+        "books": [
+          "bible-storytelling"
+        ],
+        "type": "full_day",
+        "daily_load_pages": 0
+      },
+      {
+        "id": "p3-lebanon-tail",
+        "start": "2026-10-16",
+        "end": "2026-10-16",
+        "days": 1,
+        "dates": [
+          "2026-10-16"
+        ],
+        "books": [
+          "lebanon"
+        ],
+        "daily_load_pages": 17
+      },
+      {
+        "id": "p4-lebanon-edit",
+        "start": "2026-10-19",
+        "end": "2026-11-06",
+        "days": 12,
+        "dates": [
+          "2026-10-19",
+          "2026-10-21",
+          "2026-10-22",
+          "2026-10-23",
+          "2026-10-26",
+          "2026-10-28",
+          "2026-10-29",
+          "2026-10-30",
+          "2026-11-02",
+          "2026-11-04",
+          "2026-11-05",
+          "2026-11-06"
+        ],
+        "books": [
+          "acts"
+        ],
+        "concurrent_edit": "lebanon",
+        "daily_load_pages": 10
+      }
+    ],
+    "milestones": [
+      {
+        "date": "2026-10-14",
+        "book": "bible-storytelling",
+        "label": "성경 스토리텔링 녹음 완료 (132p)"
+      },
+      {
+        "date": "2026-10-15",
+        "book": "bible-storytelling",
+        "label": "성경 스토리텔링 편집 완료 · 마감"
+      },
+      {
+        "date": "2026-10-16",
+        "book": "lebanon",
+        "label": "레바논의 시내 녹음 완료 (197p)"
+      },
+      {
+        "date": "2026-11-06",
+        "book": "lebanon",
+        "label": "레바논의 시내 편집 완료 · 마감"
+      },
+      {
+        "date": "2026-11-06",
+        "book": "acts",
+        "label": "사도행전 녹음 완료 (120p)"
+      }
+    ]
   },
   "books": [
     {
       "id": "classics-youtube",
-      "name": "고전 유튜브"
-    },
-    {
-      "id": "major-book",
-      "name": "자율 전공책"
+      "name": "고전 유튜브",
+      "hue": "yt",
+      "paged": false,
+      "total": 0,
+      "deadline": null,
+      "recording_days": 0,
+      "daily_rate": null,
+      "completion_date": null,
+      "occupied_dates": [
+        "2026-09-29",
+        "2026-10-06",
+        "2026-10-13",
+        "2026-10-20",
+        "2026-10-27",
+        "2026-11-03"
+      ]
     },
     {
       "id": "bible-storytelling",
-      "name": "성경 스토리텔링"
+      "name": "성경 스토리텔링",
+      "hue": "bb",
+      "paged": true,
+      "total": 132,
+      "deadline": "2026-10-15",
+      "recording_days": 9,
+      "daily_rate": 15,
+      "completion_date": "2026-10-14",
+      "occupied_dates": null
     },
     {
       "id": "lebanon",
-      "name": "레바논의 시내"
+      "name": "레바논의 시내",
+      "hue": "lb",
+      "paged": true,
+      "total": 197,
+      "deadline": "2026-11-06",
+      "recording_days": 10,
+      "daily_rate": 20,
+      "completion_date": "2026-10-16",
+      "occupied_dates": null
+    },
+    {
+      "id": "acts",
+      "name": "사도행전",
+      "hue": "ac",
+      "paged": true,
+      "total": 120,
+      "deadline": "2026-11-06",
+      "recording_days": 12,
+      "daily_rate": 10,
+      "completion_date": "2026-11-06",
+      "occupied_dates": null
     }
   ],
   "totals": {
-    "major-book": 150,
-    "bible-storytelling": 200,
-    "lebanon": 470
+    "bible-storytelling": 132,
+    "lebanon": 197,
+    "acts": 120
   },
+  "weeks": [
+    {
+      "n": 1,
+      "monday": "2026-09-21",
+      "span": "9/23",
+      "weekend": "2026-09-26",
+      "excluded": [
+        "2026-09-24",
+        "2026-09-25"
+      ],
+      "planned_pages": 35,
+      "days": [
+        {
+          "date": "2026-09-23",
+          "dow": "수",
+          "week": 1,
+          "type": "recording",
+          "blocks": [
+            {
+              "book": "bible-storytelling",
+              "name": "성경 스토리텔링",
+              "pages": 15,
+              "kind": "record",
+              "label": "15p"
+            },
+            {
+              "book": "lebanon",
+              "name": "레바논의 시내",
+              "pages": 20,
+              "kind": "record",
+              "label": "20p"
+            }
+          ],
+          "total_pages": 35,
+          "cumulative": {
+            "bible-storytelling": 15,
+            "lebanon": 20,
+            "acts": 0
+          },
+          "note": ""
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "monday": "2026-09-28",
+      "span": "9/28 – 10/2",
+      "weekend": "2026-10-03",
+      "excluded": [],
+      "planned_pages": 140,
+      "days": [
+        {
+          "date": "2026-09-28",
+          "dow": "월",
+          "week": 2,
+          "type": "recording",
+          "blocks": [
+            {
+              "book": "bible-storytelling",
+              "name": "성경 스토리텔링",
+              "pages": 15,
+              "kind": "record",
+              "label": "15p"
+            },
+            {
+              "book": "lebanon",
+              "name": "레바논의 시내",
+              "pages": 20,
+              "kind": "record",
+              "label": "20p"
+            }
+          ],
+          "total_pages": 35,
+          "cumulative": {
+            "bible-storytelling": 30,
+            "lebanon": 40,
+            "acts": 0
+          },
+          "note": ""
+        },
+        {
+          "date": "2026-09-29",
+          "dow": "화",
+          "week": 2,
+          "type": "full_day",
+          "blocks": [
+            {
+              "book": "classics-youtube",
+              "name": "고전 유튜브",
+              "pages": null,
+              "kind": "record",
+              "label": "전일 녹음"
+            }
+          ],
+          "total_pages": 0,
+          "cumulative": {
+            "bible-storytelling": 30,
+            "lebanon": 40,
+            "acts": 0
+          },
+          "note": "주간 고전 유튜브 전일 녹음 — 페이지 예산 비소비"
+        },
+        {
+          "date": "2026-09-30",
+          "dow": "수",
+          "week": 2,
+          "type": "recording",
+          "blocks": [
+            {
+              "book": "bible-storytelling",
+              "name": "성경 스토리텔링",
+              "pages": 15,
+              "kind": "record",
+              "label": "15p"
+            },
+            {
+              "book": "lebanon",
+              "name": "레바논의 시내",
+              "pages": 20,
+              "kind": "record",
+              "label": "20p"
+            }
+          ],
+          "total_pages": 35,
+          "cumulative": {
+            "bible-storytelling": 45,
+            "lebanon": 60,
+            "acts": 0
+          },
+          "note": ""
+        },
+        {
+          "date": "2026-10-01",
+          "dow": "목",
+          "week": 2,
+          "type": "recording",
+          "blocks": [
+            {
+              "book": "bible-storytelling",
+              "name": "성경 스토리텔링",
+              "pages": 15,
+              "kind": "record",
+              "label": "15p"
+            },
+            {
+              "book": "lebanon",
+              "name": "레바논의 시내",
+              "pages": 20,
+              "kind": "record",
+              "label": "20p"
+            }
+          ],
+          "total_pages": 35,
+          "cumulative": {
+            "bible-storytelling": 60,
+            "lebanon": 80,
+            "acts": 0
+          },
+          "note": ""
+        },
+        {
+          "date": "2026-10-02",
+          "dow": "금",
+          "week": 2,
+          "type": "recording",
+          "blocks": [
+            {
+              "book": "bible-storytelling",
+              "name": "성경 스토리텔링",
+              "pages": 15,
+              "kind": "record",
+              "label": "15p"
+            },
+            {
+              "book": "lebanon",
+              "name": "레바논의 시내",
+              "pages": 20,
+              "kind": "record",
+              "label": "20p"
+            }
+          ],
+          "total_pages": 35,
+          "cumulative": {
+            "bible-storytelling": 75,
+            "lebanon": 100,
+            "acts": 0
+          },
+          "note": ""
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "monday": "2026-10-05",
+      "span": "10/6 – 10/8",
+      "weekend": "2026-10-10",
+      "excluded": [
+        "2026-10-05",
+        "2026-10-09"
+      ],
+      "planned_pages": 70,
+      "days": [
+        {
+          "date": "2026-10-06",
+          "dow": "화",
+          "week": 3,
+          "type": "full_day",
+          "blocks": [
+            {
+              "book": "classics-youtube",
+              "name": "고전 유튜브",
+              "pages": null,
+              "kind": "record",
+              "label": "전일 녹음"
+            }
+          ],
+          "total_pages": 0,
+          "cumulative": {
+            "bible-storytelling": 75,
+            "lebanon": 100,
+            "acts": 0
+          },
+          "note": "주간 고전 유튜브 전일 녹음 — 페이지 예산 비소비"
+        },
+        {
+          "date": "2026-10-07",
+          "dow": "수",
+          "week": 3,
+          "type": "recording",
+          "blocks": [
+            {
+              "book": "bible-storytelling",
+              "name": "성경 스토리텔링",
+              "pages": 15,
+              "kind": "record",
+              "label": "15p"
+            },
+            {
+              "book": "lebanon",
+              "name": "레바논의 시내",
+              "pages": 20,
+              "kind": "record",
+              "label": "20p"
+            }
+          ],
+          "total_pages": 35,
+          "cumulative": {
+            "bible-storytelling": 90,
+            "lebanon": 120,
+            "acts": 0
+          },
+          "note": ""
+        },
+        {
+          "date": "2026-10-08",
+          "dow": "목",
+          "week": 3,
+          "type": "recording",
+          "blocks": [
+            {
+              "book": "bible-storytelling",
+              "name": "성경 스토리텔링",
+              "pages": 15,
+              "kind": "record",
+              "label": "15p"
+            },
+            {
+              "book": "lebanon",
+              "name": "레바논의 시내",
+              "pages": 20,
+              "kind": "record",
+              "label": "20p"
+            }
+          ],
+          "total_pages": 35,
+          "cumulative": {
+            "bible-storytelling": 105,
+            "lebanon": 140,
+            "acts": 0
+          },
+          "note": ""
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "monday": "2026-10-12",
+      "span": "10/12 – 10/16",
+      "weekend": "2026-10-17",
+      "excluded": [],
+      "planned_pages": 84,
+      "days": [
+        {
+          "date": "2026-10-12",
+          "dow": "월",
+          "week": 4,
+          "type": "recording",
+          "blocks": [
+            {
+              "book": "bible-storytelling",
+              "name": "성경 스토리텔링",
+              "pages": 15,
+              "kind": "record",
+              "label": "15p"
+            },
+            {
+              "book": "lebanon",
+              "name": "레바논의 시내",
+              "pages": 20,
+              "kind": "record",
+              "label": "20p"
+            }
+          ],
+          "total_pages": 35,
+          "cumulative": {
+            "bible-storytelling": 120,
+            "lebanon": 160,
+            "acts": 0
+          },
+          "note": ""
+        },
+        {
+          "date": "2026-10-13",
+          "dow": "화",
+          "week": 4,
+          "type": "full_day",
+          "blocks": [
+            {
+              "book": "classics-youtube",
+              "name": "고전 유튜브",
+              "pages": null,
+              "kind": "record",
+              "label": "전일 녹음"
+            }
+          ],
+          "total_pages": 0,
+          "cumulative": {
+            "bible-storytelling": 120,
+            "lebanon": 160,
+            "acts": 0
+          },
+          "note": "주간 고전 유튜브 전일 녹음 — 페이지 예산 비소비"
+        },
+        {
+          "date": "2026-10-14",
+          "dow": "수",
+          "week": 4,
+          "type": "recording",
+          "blocks": [
+            {
+              "book": "bible-storytelling",
+              "name": "성경 스토리텔링",
+              "pages": 12,
+              "kind": "record",
+              "label": "12p"
+            },
+            {
+              "book": "lebanon",
+              "name": "레바논의 시내",
+              "pages": 20,
+              "kind": "record",
+              "label": "20p"
+            }
+          ],
+          "total_pages": 32,
+          "cumulative": {
+            "bible-storytelling": 132,
+            "lebanon": 180,
+            "acts": 0
+          },
+          "note": ""
+        },
+        {
+          "date": "2026-10-15",
+          "dow": "목",
+          "week": 4,
+          "type": "full_day",
+          "blocks": [
+            {
+              "book": "bible-storytelling",
+              "name": "성경 스토리텔링",
+              "pages": null,
+              "kind": "edit",
+              "label": "전일 편집"
+            }
+          ],
+          "total_pages": 0,
+          "cumulative": {
+            "bible-storytelling": 132,
+            "lebanon": 180,
+            "acts": 0
+          },
+          "note": "성경 스토리텔링 전일 편집 — 이 하루가 레바논 잔여 17p를 10-16으로 밀어낸다"
+        },
+        {
+          "date": "2026-10-16",
+          "dow": "금",
+          "week": 4,
+          "type": "recording",
+          "blocks": [
+            {
+              "book": "lebanon",
+              "name": "레바논의 시내",
+              "pages": 17,
+              "kind": "record",
+              "label": "17p"
+            }
+          ],
+          "total_pages": 17,
+          "cumulative": {
+            "bible-storytelling": 132,
+            "lebanon": 197,
+            "acts": 0
+          },
+          "note": "레바논 녹음 완료일 — 잔여 도서가 1종뿐이라 혼합 불가(부하 17p)"
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "monday": "2026-10-19",
+      "span": "10/19 – 10/23",
+      "weekend": "2026-10-24",
+      "excluded": [],
+      "planned_pages": 40,
+      "days": [
+        {
+          "date": "2026-10-19",
+          "dow": "월",
+          "week": 5,
+          "type": "recording",
+          "blocks": [
+            {
+              "book": "lebanon",
+              "name": "레바논의 시내",
+              "pages": null,
+              "kind": "edit",
+              "label": "편집"
+            },
+            {
+              "book": "acts",
+              "name": "사도행전",
+              "pages": 10,
+              "kind": "record",
+              "label": "10p"
+            }
+          ],
+          "total_pages": 10,
+          "cumulative": {
+            "bible-storytelling": 132,
+            "lebanon": 197,
+            "acts": 10
+          },
+          "note": "레바논 편집(무발성)과 사도행전 녹음 10p 병행 — 전일 점유가 아니다"
+        },
+        {
+          "date": "2026-10-20",
+          "dow": "화",
+          "week": 5,
+          "type": "full_day",
+          "blocks": [
+            {
+              "book": "classics-youtube",
+              "name": "고전 유튜브",
+              "pages": null,
+              "kind": "record",
+              "label": "전일 녹음"
+            }
+          ],
+          "total_pages": 0,
+          "cumulative": {
+            "bible-storytelling": 132,
+            "lebanon": 197,
+            "acts": 10
+          },
+          "note": "주간 고전 유튜브 전일 녹음 — 페이지 예산 비소비"
+        },
+        {
+          "date": "2026-10-21",
+          "dow": "수",
+          "week": 5,
+          "type": "recording",
+          "blocks": [
+            {
+              "book": "lebanon",
+              "name": "레바논의 시내",
+              "pages": null,
+              "kind": "edit",
+              "label": "편집"
+            },
+            {
+              "book": "acts",
+              "name": "사도행전",
+              "pages": 10,
+              "kind": "record",
+              "label": "10p"
+            }
+          ],
+          "total_pages": 10,
+          "cumulative": {
+            "bible-storytelling": 132,
+            "lebanon": 197,
+            "acts": 20
+          },
+          "note": "레바논 편집(무발성)과 사도행전 녹음 10p 병행 — 전일 점유가 아니다"
+        },
+        {
+          "date": "2026-10-22",
+          "dow": "목",
+          "week": 5,
+          "type": "recording",
+          "blocks": [
+            {
+              "book": "lebanon",
+              "name": "레바논의 시내",
+              "pages": null,
+              "kind": "edit",
+              "label": "편집"
+            },
+            {
+              "book": "acts",
+              "name": "사도행전",
+              "pages": 10,
+              "kind": "record",
+              "label": "10p"
+            }
+          ],
+          "total_pages": 10,
+          "cumulative": {
+            "bible-storytelling": 132,
+            "lebanon": 197,
+            "acts": 30
+          },
+          "note": "레바논 편집(무발성)과 사도행전 녹음 10p 병행 — 전일 점유가 아니다"
+        },
+        {
+          "date": "2026-10-23",
+          "dow": "금",
+          "week": 5,
+          "type": "recording",
+          "blocks": [
+            {
+              "book": "lebanon",
+              "name": "레바논의 시내",
+              "pages": null,
+              "kind": "edit",
+              "label": "편집"
+            },
+            {
+              "book": "acts",
+              "name": "사도행전",
+              "pages": 10,
+              "kind": "record",
+              "label": "10p"
+            }
+          ],
+          "total_pages": 10,
+          "cumulative": {
+            "bible-storytelling": 132,
+            "lebanon": 197,
+            "acts": 40
+          },
+          "note": "레바논 편집(무발성)과 사도행전 녹음 10p 병행 — 전일 점유가 아니다"
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "monday": "2026-10-26",
+      "span": "10/26 – 10/30",
+      "weekend": "2026-10-31",
+      "excluded": [],
+      "planned_pages": 40,
+      "days": [
+        {
+          "date": "2026-10-26",
+          "dow": "월",
+          "week": 6,
+          "type": "recording",
+          "blocks": [
+            {
+              "book": "lebanon",
+              "name": "레바논의 시내",
+              "pages": null,
+              "kind": "edit",
+              "label": "편집"
+            },
+            {
+              "book": "acts",
+              "name": "사도행전",
+              "pages": 10,
+              "kind": "record",
+              "label": "10p"
+            }
+          ],
+          "total_pages": 10,
+          "cumulative": {
+            "bible-storytelling": 132,
+            "lebanon": 197,
+            "acts": 50
+          },
+          "note": "레바논 편집(무발성)과 사도행전 녹음 10p 병행 — 전일 점유가 아니다"
+        },
+        {
+          "date": "2026-10-27",
+          "dow": "화",
+          "week": 6,
+          "type": "full_day",
+          "blocks": [
+            {
+              "book": "classics-youtube",
+              "name": "고전 유튜브",
+              "pages": null,
+              "kind": "record",
+              "label": "전일 녹음"
+            }
+          ],
+          "total_pages": 0,
+          "cumulative": {
+            "bible-storytelling": 132,
+            "lebanon": 197,
+            "acts": 50
+          },
+          "note": "주간 고전 유튜브 전일 녹음 — 페이지 예산 비소비"
+        },
+        {
+          "date": "2026-10-28",
+          "dow": "수",
+          "week": 6,
+          "type": "recording",
+          "blocks": [
+            {
+              "book": "lebanon",
+              "name": "레바논의 시내",
+              "pages": null,
+              "kind": "edit",
+              "label": "편집"
+            },
+            {
+              "book": "acts",
+              "name": "사도행전",
+              "pages": 10,
+              "kind": "record",
+              "label": "10p"
+            }
+          ],
+          "total_pages": 10,
+          "cumulative": {
+            "bible-storytelling": 132,
+            "lebanon": 197,
+            "acts": 60
+          },
+          "note": "레바논 편집(무발성)과 사도행전 녹음 10p 병행 — 전일 점유가 아니다"
+        },
+        {
+          "date": "2026-10-29",
+          "dow": "목",
+          "week": 6,
+          "type": "recording",
+          "blocks": [
+            {
+              "book": "lebanon",
+              "name": "레바논의 시내",
+              "pages": null,
+              "kind": "edit",
+              "label": "편집"
+            },
+            {
+              "book": "acts",
+              "name": "사도행전",
+              "pages": 10,
+              "kind": "record",
+              "label": "10p"
+            }
+          ],
+          "total_pages": 10,
+          "cumulative": {
+            "bible-storytelling": 132,
+            "lebanon": 197,
+            "acts": 70
+          },
+          "note": "레바논 편집(무발성)과 사도행전 녹음 10p 병행 — 전일 점유가 아니다"
+        },
+        {
+          "date": "2026-10-30",
+          "dow": "금",
+          "week": 6,
+          "type": "recording",
+          "blocks": [
+            {
+              "book": "lebanon",
+              "name": "레바논의 시내",
+              "pages": null,
+              "kind": "edit",
+              "label": "편집"
+            },
+            {
+              "book": "acts",
+              "name": "사도행전",
+              "pages": 10,
+              "kind": "record",
+              "label": "10p"
+            }
+          ],
+          "total_pages": 10,
+          "cumulative": {
+            "bible-storytelling": 132,
+            "lebanon": 197,
+            "acts": 80
+          },
+          "note": "레바논 편집(무발성)과 사도행전 녹음 10p 병행 — 전일 점유가 아니다"
+        }
+      ]
+    },
+    {
+      "n": 7,
+      "monday": "2026-11-02",
+      "span": "11/2 – 11/6",
+      "weekend": "2026-11-07",
+      "excluded": [],
+      "planned_pages": 40,
+      "days": [
+        {
+          "date": "2026-11-02",
+          "dow": "월",
+          "week": 7,
+          "type": "recording",
+          "blocks": [
+            {
+              "book": "lebanon",
+              "name": "레바논의 시내",
+              "pages": null,
+              "kind": "edit",
+              "label": "편집"
+            },
+            {
+              "book": "acts",
+              "name": "사도행전",
+              "pages": 10,
+              "kind": "record",
+              "label": "10p"
+            }
+          ],
+          "total_pages": 10,
+          "cumulative": {
+            "bible-storytelling": 132,
+            "lebanon": 197,
+            "acts": 90
+          },
+          "note": "레바논 편집(무발성)과 사도행전 녹음 10p 병행 — 전일 점유가 아니다"
+        },
+        {
+          "date": "2026-11-03",
+          "dow": "화",
+          "week": 7,
+          "type": "full_day",
+          "blocks": [
+            {
+              "book": "classics-youtube",
+              "name": "고전 유튜브",
+              "pages": null,
+              "kind": "record",
+              "label": "전일 녹음"
+            }
+          ],
+          "total_pages": 0,
+          "cumulative": {
+            "bible-storytelling": 132,
+            "lebanon": 197,
+            "acts": 90
+          },
+          "note": "주간 고전 유튜브 전일 녹음 — 페이지 예산 비소비"
+        },
+        {
+          "date": "2026-11-04",
+          "dow": "수",
+          "week": 7,
+          "type": "recording",
+          "blocks": [
+            {
+              "book": "lebanon",
+              "name": "레바논의 시내",
+              "pages": null,
+              "kind": "edit",
+              "label": "편집"
+            },
+            {
+              "book": "acts",
+              "name": "사도행전",
+              "pages": 10,
+              "kind": "record",
+              "label": "10p"
+            }
+          ],
+          "total_pages": 10,
+          "cumulative": {
+            "bible-storytelling": 132,
+            "lebanon": 197,
+            "acts": 100
+          },
+          "note": "레바논 편집(무발성)과 사도행전 녹음 10p 병행 — 전일 점유가 아니다"
+        },
+        {
+          "date": "2026-11-05",
+          "dow": "목",
+          "week": 7,
+          "type": "recording",
+          "blocks": [
+            {
+              "book": "lebanon",
+              "name": "레바논의 시내",
+              "pages": null,
+              "kind": "edit",
+              "label": "편집"
+            },
+            {
+              "book": "acts",
+              "name": "사도행전",
+              "pages": 10,
+              "kind": "record",
+              "label": "10p"
+            }
+          ],
+          "total_pages": 10,
+          "cumulative": {
+            "bible-storytelling": 132,
+            "lebanon": 197,
+            "acts": 110
+          },
+          "note": "레바논 편집(무발성)과 사도행전 녹음 10p 병행 — 전일 점유가 아니다"
+        },
+        {
+          "date": "2026-11-06",
+          "dow": "금",
+          "week": 7,
+          "type": "recording",
+          "blocks": [
+            {
+              "book": "lebanon",
+              "name": "레바논의 시내",
+              "pages": null,
+              "kind": "edit",
+              "label": "편집"
+            },
+            {
+              "book": "acts",
+              "name": "사도행전",
+              "pages": 10,
+              "kind": "record",
+              "label": "10p"
+            }
+          ],
+          "total_pages": 10,
+          "cumulative": {
+            "bible-storytelling": 132,
+            "lebanon": 197,
+            "acts": 120
+          },
+          "note": "레바논 편집(무발성)과 사도행전 녹음 10p 병행 — 전일 점유가 아니다"
+        }
+      ]
+    }
+  ],
   "days": [
     {
-      "date": "2026-08-24",
-      "dow": "월",
-      "week": 1,
-      "blocks": [
-        {
-          "book": "classics-youtube",
-          "name": "고전 유튜브",
-          "pages": null,
-          "kind": "record",
-          "label": "전일 녹음"
-        }
-      ],
-      "type": "full_day",
-      "total_pages": 0,
-      "cumulative": {
-        "major-book": 0,
-        "bible-storytelling": 0,
-        "lebanon": 0
-      }
-    },
-    {
-      "date": "2026-08-25",
-      "dow": "화",
-      "week": 1,
-      "blocks": [
-        {
-          "book": "major-book",
-          "name": "자율 전공책",
-          "pages": 22,
-          "kind": "record",
-          "label": "22p"
-        },
-        {
-          "book": "lebanon",
-          "name": "레바논의 시내",
-          "pages": 15,
-          "kind": "record",
-          "label": "15p"
-        }
-      ],
-      "type": "recording",
-      "total_pages": 37,
-      "cumulative": {
-        "major-book": 22,
-        "bible-storytelling": 0,
-        "lebanon": 15
-      }
-    },
-    {
-      "date": "2026-08-26",
+      "date": "2026-09-23",
       "dow": "수",
       "week": 1,
+      "type": "recording",
       "blocks": [
         {
-          "book": "major-book",
-          "name": "자율 전공책",
-          "pages": 22,
-          "kind": "record",
-          "label": "22p"
-        },
-        {
-          "book": "lebanon",
-          "name": "레바논의 시내",
+          "book": "bible-storytelling",
+          "name": "성경 스토리텔링",
           "pages": 15,
           "kind": "record",
           "label": "15p"
-        }
-      ],
-      "type": "recording",
-      "total_pages": 37,
-      "cumulative": {
-        "major-book": 44,
-        "bible-storytelling": 0,
-        "lebanon": 30
-      }
-    },
-    {
-      "date": "2026-08-27",
-      "dow": "목",
-      "week": 1,
-      "blocks": [
-        {
-          "book": "major-book",
-          "name": "자율 전공책",
-          "pages": 22,
-          "kind": "record",
-          "label": "22p"
         },
         {
           "book": "lebanon",
           "name": "레바논의 시내",
-          "pages": 15,
-          "kind": "record",
-          "label": "15p"
-        }
-      ],
-      "type": "recording",
-      "total_pages": 37,
-      "cumulative": {
-        "major-book": 66,
-        "bible-storytelling": 0,
-        "lebanon": 45
-      }
-    },
-    {
-      "date": "2026-08-28",
-      "dow": "금",
-      "week": 1,
-      "blocks": [
-        {
-          "book": "major-book",
-          "name": "자율 전공책",
-          "pages": 22,
-          "kind": "record",
-          "label": "22p"
-        },
-        {
-          "book": "lebanon",
-          "name": "레바논의 시내",
-          "pages": 15,
-          "kind": "record",
-          "label": "15p"
-        }
-      ],
-      "type": "recording",
-      "total_pages": 37,
-      "cumulative": {
-        "major-book": 88,
-        "bible-storytelling": 0,
-        "lebanon": 60
-      }
-    },
-    {
-      "date": "2026-08-31",
-      "dow": "월",
-      "week": 2,
-      "blocks": [
-        {
-          "book": "classics-youtube",
-          "name": "고전 유튜브",
-          "pages": null,
-          "kind": "record",
-          "label": "전일 녹음"
-        }
-      ],
-      "type": "full_day",
-      "total_pages": 0,
-      "cumulative": {
-        "major-book": 88,
-        "bible-storytelling": 0,
-        "lebanon": 60
-      }
-    },
-    {
-      "date": "2026-09-01",
-      "dow": "화",
-      "week": 2,
-      "blocks": [
-        {
-          "book": "major-book",
-          "name": "자율 전공책",
-          "pages": 21,
-          "kind": "record",
-          "label": "21p"
-        },
-        {
-          "book": "lebanon",
-          "name": "레바논의 시내",
-          "pages": 16,
-          "kind": "record",
-          "label": "16p"
-        }
-      ],
-      "type": "recording",
-      "total_pages": 37,
-      "cumulative": {
-        "major-book": 109,
-        "bible-storytelling": 0,
-        "lebanon": 76
-      }
-    },
-    {
-      "date": "2026-09-02",
-      "dow": "수",
-      "week": 2,
-      "blocks": [
-        {
-          "book": "major-book",
-          "name": "자율 전공책",
-          "pages": 21,
-          "kind": "record",
-          "label": "21p"
-        },
-        {
-          "book": "lebanon",
-          "name": "레바논의 시내",
-          "pages": 16,
-          "kind": "record",
-          "label": "16p"
-        }
-      ],
-      "type": "recording",
-      "total_pages": 37,
-      "cumulative": {
-        "major-book": 130,
-        "bible-storytelling": 0,
-        "lebanon": 92
-      }
-    },
-    {
-      "date": "2026-09-03",
-      "dow": "목",
-      "week": 2,
-      "blocks": [
-        {
-          "book": "major-book",
-          "name": "자율 전공책",
           "pages": 20,
           "kind": "record",
           "label": "20p"
+        }
+      ],
+      "total_pages": 35,
+      "cumulative": {
+        "bible-storytelling": 15,
+        "lebanon": 20,
+        "acts": 0
+      },
+      "note": ""
+    },
+    {
+      "date": "2026-09-28",
+      "dow": "월",
+      "week": 2,
+      "type": "recording",
+      "blocks": [
+        {
+          "book": "bible-storytelling",
+          "name": "성경 스토리텔링",
+          "pages": 15,
+          "kind": "record",
+          "label": "15p"
         },
+        {
+          "book": "lebanon",
+          "name": "레바논의 시내",
+          "pages": 20,
+          "kind": "record",
+          "label": "20p"
+        }
+      ],
+      "total_pages": 35,
+      "cumulative": {
+        "bible-storytelling": 30,
+        "lebanon": 40,
+        "acts": 0
+      },
+      "note": ""
+    },
+    {
+      "date": "2026-09-29",
+      "dow": "화",
+      "week": 2,
+      "type": "full_day",
+      "blocks": [
+        {
+          "book": "classics-youtube",
+          "name": "고전 유튜브",
+          "pages": null,
+          "kind": "record",
+          "label": "전일 녹음"
+        }
+      ],
+      "total_pages": 0,
+      "cumulative": {
+        "bible-storytelling": 30,
+        "lebanon": 40,
+        "acts": 0
+      },
+      "note": "주간 고전 유튜브 전일 녹음 — 페이지 예산 비소비"
+    },
+    {
+      "date": "2026-09-30",
+      "dow": "수",
+      "week": 2,
+      "type": "recording",
+      "blocks": [
+        {
+          "book": "bible-storytelling",
+          "name": "성경 스토리텔링",
+          "pages": 15,
+          "kind": "record",
+          "label": "15p"
+        },
+        {
+          "book": "lebanon",
+          "name": "레바논의 시내",
+          "pages": 20,
+          "kind": "record",
+          "label": "20p"
+        }
+      ],
+      "total_pages": 35,
+      "cumulative": {
+        "bible-storytelling": 45,
+        "lebanon": 60,
+        "acts": 0
+      },
+      "note": ""
+    },
+    {
+      "date": "2026-10-01",
+      "dow": "목",
+      "week": 2,
+      "type": "recording",
+      "blocks": [
+        {
+          "book": "bible-storytelling",
+          "name": "성경 스토리텔링",
+          "pages": 15,
+          "kind": "record",
+          "label": "15p"
+        },
+        {
+          "book": "lebanon",
+          "name": "레바논의 시내",
+          "pages": 20,
+          "kind": "record",
+          "label": "20p"
+        }
+      ],
+      "total_pages": 35,
+      "cumulative": {
+        "bible-storytelling": 60,
+        "lebanon": 80,
+        "acts": 0
+      },
+      "note": ""
+    },
+    {
+      "date": "2026-10-02",
+      "dow": "금",
+      "week": 2,
+      "type": "recording",
+      "blocks": [
+        {
+          "book": "bible-storytelling",
+          "name": "성경 스토리텔링",
+          "pages": 15,
+          "kind": "record",
+          "label": "15p"
+        },
+        {
+          "book": "lebanon",
+          "name": "레바논의 시내",
+          "pages": 20,
+          "kind": "record",
+          "label": "20p"
+        }
+      ],
+      "total_pages": 35,
+      "cumulative": {
+        "bible-storytelling": 75,
+        "lebanon": 100,
+        "acts": 0
+      },
+      "note": ""
+    },
+    {
+      "date": "2026-10-06",
+      "dow": "화",
+      "week": 3,
+      "type": "full_day",
+      "blocks": [
+        {
+          "book": "classics-youtube",
+          "name": "고전 유튜브",
+          "pages": null,
+          "kind": "record",
+          "label": "전일 녹음"
+        }
+      ],
+      "total_pages": 0,
+      "cumulative": {
+        "bible-storytelling": 75,
+        "lebanon": 100,
+        "acts": 0
+      },
+      "note": "주간 고전 유튜브 전일 녹음 — 페이지 예산 비소비"
+    },
+    {
+      "date": "2026-10-07",
+      "dow": "수",
+      "week": 3,
+      "type": "recording",
+      "blocks": [
+        {
+          "book": "bible-storytelling",
+          "name": "성경 스토리텔링",
+          "pages": 15,
+          "kind": "record",
+          "label": "15p"
+        },
+        {
+          "book": "lebanon",
+          "name": "레바논의 시내",
+          "pages": 20,
+          "kind": "record",
+          "label": "20p"
+        }
+      ],
+      "total_pages": 35,
+      "cumulative": {
+        "bible-storytelling": 90,
+        "lebanon": 120,
+        "acts": 0
+      },
+      "note": ""
+    },
+    {
+      "date": "2026-10-08",
+      "dow": "목",
+      "week": 3,
+      "type": "recording",
+      "blocks": [
+        {
+          "book": "bible-storytelling",
+          "name": "성경 스토리텔링",
+          "pages": 15,
+          "kind": "record",
+          "label": "15p"
+        },
+        {
+          "book": "lebanon",
+          "name": "레바논의 시내",
+          "pages": 20,
+          "kind": "record",
+          "label": "20p"
+        }
+      ],
+      "total_pages": 35,
+      "cumulative": {
+        "bible-storytelling": 105,
+        "lebanon": 140,
+        "acts": 0
+      },
+      "note": ""
+    },
+    {
+      "date": "2026-10-12",
+      "dow": "월",
+      "week": 4,
+      "type": "recording",
+      "blocks": [
+        {
+          "book": "bible-storytelling",
+          "name": "성경 스토리텔링",
+          "pages": 15,
+          "kind": "record",
+          "label": "15p"
+        },
+        {
+          "book": "lebanon",
+          "name": "레바논의 시내",
+          "pages": 20,
+          "kind": "record",
+          "label": "20p"
+        }
+      ],
+      "total_pages": 35,
+      "cumulative": {
+        "bible-storytelling": 120,
+        "lebanon": 160,
+        "acts": 0
+      },
+      "note": ""
+    },
+    {
+      "date": "2026-10-13",
+      "dow": "화",
+      "week": 4,
+      "type": "full_day",
+      "blocks": [
+        {
+          "book": "classics-youtube",
+          "name": "고전 유튜브",
+          "pages": null,
+          "kind": "record",
+          "label": "전일 녹음"
+        }
+      ],
+      "total_pages": 0,
+      "cumulative": {
+        "bible-storytelling": 120,
+        "lebanon": 160,
+        "acts": 0
+      },
+      "note": "주간 고전 유튜브 전일 녹음 — 페이지 예산 비소비"
+    },
+    {
+      "date": "2026-10-14",
+      "dow": "수",
+      "week": 4,
+      "type": "recording",
+      "blocks": [
+        {
+          "book": "bible-storytelling",
+          "name": "성경 스토리텔링",
+          "pages": 12,
+          "kind": "record",
+          "label": "12p"
+        },
+        {
+          "book": "lebanon",
+          "name": "레바논의 시내",
+          "pages": 20,
+          "kind": "record",
+          "label": "20p"
+        }
+      ],
+      "total_pages": 32,
+      "cumulative": {
+        "bible-storytelling": 132,
+        "lebanon": 180,
+        "acts": 0
+      },
+      "note": ""
+    },
+    {
+      "date": "2026-10-15",
+      "dow": "목",
+      "week": 4,
+      "type": "full_day",
+      "blocks": [
+        {
+          "book": "bible-storytelling",
+          "name": "성경 스토리텔링",
+          "pages": null,
+          "kind": "edit",
+          "label": "전일 편집"
+        }
+      ],
+      "total_pages": 0,
+      "cumulative": {
+        "bible-storytelling": 132,
+        "lebanon": 180,
+        "acts": 0
+      },
+      "note": "성경 스토리텔링 전일 편집 — 이 하루가 레바논 잔여 17p를 10-16으로 밀어낸다"
+    },
+    {
+      "date": "2026-10-16",
+      "dow": "금",
+      "week": 4,
+      "type": "recording",
+      "blocks": [
         {
           "book": "lebanon",
           "name": "레바논의 시내",
@@ -269,39 +1451,48 @@
           "label": "17p"
         }
       ],
-      "type": "recording",
-      "total_pages": 37,
+      "total_pages": 17,
       "cumulative": {
-        "major-book": 150,
-        "bible-storytelling": 0,
-        "lebanon": 109
-      }
+        "bible-storytelling": 132,
+        "lebanon": 197,
+        "acts": 0
+      },
+      "note": "레바논 녹음 완료일 — 잔여 도서가 1종뿐이라 혼합 불가(부하 17p)"
     },
     {
-      "date": "2026-09-04",
-      "dow": "금",
-      "week": 2,
+      "date": "2026-10-19",
+      "dow": "월",
+      "week": 5,
+      "type": "recording",
       "blocks": [
         {
-          "book": "major-book",
-          "name": "자율 전공책",
+          "book": "lebanon",
+          "name": "레바논의 시내",
           "pages": null,
           "kind": "edit",
-          "label": "전일 편집"
+          "label": "편집"
+        },
+        {
+          "book": "acts",
+          "name": "사도행전",
+          "pages": 10,
+          "kind": "record",
+          "label": "10p"
         }
       ],
-      "type": "full_day",
-      "total_pages": 0,
+      "total_pages": 10,
       "cumulative": {
-        "major-book": 150,
-        "bible-storytelling": 0,
-        "lebanon": 109
-      }
+        "bible-storytelling": 132,
+        "lebanon": 197,
+        "acts": 10
+      },
+      "note": "레바논 편집(무발성)과 사도행전 녹음 10p 병행 — 전일 점유가 아니다"
     },
     {
-      "date": "2026-09-07",
-      "dow": "월",
-      "week": 3,
+      "date": "2026-10-20",
+      "dow": "화",
+      "week": 5,
+      "type": "full_day",
       "blocks": [
         {
           "book": "classics-youtube",
@@ -311,392 +1502,135 @@
           "label": "전일 녹음"
         }
       ],
-      "type": "full_day",
       "total_pages": 0,
       "cumulative": {
-        "major-book": 150,
-        "bible-storytelling": 0,
-        "lebanon": 109
-      }
+        "bible-storytelling": 132,
+        "lebanon": 197,
+        "acts": 10
+      },
+      "note": "주간 고전 유튜브 전일 녹음 — 페이지 예산 비소비"
     },
     {
-      "date": "2026-09-08",
-      "dow": "화",
-      "week": 3,
-      "blocks": [
-        {
-          "book": "bible-storytelling",
-          "name": "성경 스토리텔링",
-          "pages": 20,
-          "kind": "record",
-          "label": "20p"
-        },
-        {
-          "book": "lebanon",
-          "name": "레바논의 시내",
-          "pages": 18,
-          "kind": "record",
-          "label": "18p"
-        }
-      ],
-      "type": "recording",
-      "total_pages": 38,
-      "cumulative": {
-        "major-book": 150,
-        "bible-storytelling": 20,
-        "lebanon": 127
-      }
-    },
-    {
-      "date": "2026-09-09",
-      "dow": "수",
-      "week": 3,
-      "blocks": [
-        {
-          "book": "bible-storytelling",
-          "name": "성경 스토리텔링",
-          "pages": 20,
-          "kind": "record",
-          "label": "20p"
-        },
-        {
-          "book": "lebanon",
-          "name": "레바논의 시내",
-          "pages": 18,
-          "kind": "record",
-          "label": "18p"
-        }
-      ],
-      "type": "recording",
-      "total_pages": 38,
-      "cumulative": {
-        "major-book": 150,
-        "bible-storytelling": 40,
-        "lebanon": 145
-      }
-    },
-    {
-      "date": "2026-09-10",
-      "dow": "목",
-      "week": 3,
-      "blocks": [
-        {
-          "book": "bible-storytelling",
-          "name": "성경 스토리텔링",
-          "pages": 20,
-          "kind": "record",
-          "label": "20p"
-        },
-        {
-          "book": "lebanon",
-          "name": "레바논의 시내",
-          "pages": 18,
-          "kind": "record",
-          "label": "18p"
-        }
-      ],
-      "type": "recording",
-      "total_pages": 38,
-      "cumulative": {
-        "major-book": 150,
-        "bible-storytelling": 60,
-        "lebanon": 163
-      }
-    },
-    {
-      "date": "2026-09-11",
-      "dow": "금",
-      "week": 3,
-      "blocks": [
-        {
-          "book": "bible-storytelling",
-          "name": "성경 스토리텔링",
-          "pages": 20,
-          "kind": "record",
-          "label": "20p"
-        },
-        {
-          "book": "lebanon",
-          "name": "레바논의 시내",
-          "pages": 18,
-          "kind": "record",
-          "label": "18p"
-        }
-      ],
-      "type": "recording",
-      "total_pages": 38,
-      "cumulative": {
-        "major-book": 150,
-        "bible-storytelling": 80,
-        "lebanon": 181
-      }
-    },
-    {
-      "date": "2026-09-14",
-      "dow": "월",
-      "week": 4,
-      "blocks": [
-        {
-          "book": "classics-youtube",
-          "name": "고전 유튜브",
-          "pages": null,
-          "kind": "record",
-          "label": "전일 녹음"
-        }
-      ],
-      "type": "full_day",
-      "total_pages": 0,
-      "cumulative": {
-        "major-book": 150,
-        "bible-storytelling": 80,
-        "lebanon": 181
-      }
-    },
-    {
-      "date": "2026-09-15",
-      "dow": "화",
-      "week": 4,
-      "blocks": [
-        {
-          "book": "bible-storytelling",
-          "name": "성경 스토리텔링",
-          "pages": 20,
-          "kind": "record",
-          "label": "20p"
-        },
-        {
-          "book": "lebanon",
-          "name": "레바논의 시내",
-          "pages": 18,
-          "kind": "record",
-          "label": "18p"
-        }
-      ],
-      "type": "recording",
-      "total_pages": 38,
-      "cumulative": {
-        "major-book": 150,
-        "bible-storytelling": 100,
-        "lebanon": 199
-      }
-    },
-    {
-      "date": "2026-09-16",
-      "dow": "수",
-      "week": 4,
-      "blocks": [
-        {
-          "book": "bible-storytelling",
-          "name": "성경 스토리텔링",
-          "pages": 20,
-          "kind": "record",
-          "label": "20p"
-        },
-        {
-          "book": "lebanon",
-          "name": "레바논의 시내",
-          "pages": 18,
-          "kind": "record",
-          "label": "18p"
-        }
-      ],
-      "type": "recording",
-      "total_pages": 38,
-      "cumulative": {
-        "major-book": 150,
-        "bible-storytelling": 120,
-        "lebanon": 217
-      }
-    },
-    {
-      "date": "2026-09-17",
-      "dow": "목",
-      "week": 4,
-      "blocks": [
-        {
-          "book": "bible-storytelling",
-          "name": "성경 스토리텔링",
-          "pages": 20,
-          "kind": "record",
-          "label": "20p"
-        },
-        {
-          "book": "lebanon",
-          "name": "레바논의 시내",
-          "pages": 18,
-          "kind": "record",
-          "label": "18p"
-        }
-      ],
-      "type": "recording",
-      "total_pages": 38,
-      "cumulative": {
-        "major-book": 150,
-        "bible-storytelling": 140,
-        "lebanon": 235
-      }
-    },
-    {
-      "date": "2026-09-18",
-      "dow": "금",
-      "week": 4,
-      "blocks": [
-        {
-          "book": "bible-storytelling",
-          "name": "성경 스토리텔링",
-          "pages": 20,
-          "kind": "record",
-          "label": "20p"
-        },
-        {
-          "book": "lebanon",
-          "name": "레바논의 시내",
-          "pages": 18,
-          "kind": "record",
-          "label": "18p"
-        }
-      ],
-      "type": "recording",
-      "total_pages": 38,
-      "cumulative": {
-        "major-book": 150,
-        "bible-storytelling": 160,
-        "lebanon": 253
-      }
-    },
-    {
-      "date": "2026-09-21",
-      "dow": "월",
-      "week": 5,
-      "blocks": [
-        {
-          "book": "classics-youtube",
-          "name": "고전 유튜브",
-          "pages": null,
-          "kind": "record",
-          "label": "전일 녹음"
-        }
-      ],
-      "type": "full_day",
-      "total_pages": 0,
-      "cumulative": {
-        "major-book": 150,
-        "bible-storytelling": 160,
-        "lebanon": 253
-      }
-    },
-    {
-      "date": "2026-09-22",
-      "dow": "화",
-      "week": 5,
-      "blocks": [
-        {
-          "book": "bible-storytelling",
-          "name": "성경 스토리텔링",
-          "pages": 20,
-          "kind": "record",
-          "label": "20p"
-        },
-        {
-          "book": "lebanon",
-          "name": "레바논의 시내",
-          "pages": 18,
-          "kind": "record",
-          "label": "18p"
-        }
-      ],
-      "type": "recording",
-      "total_pages": 38,
-      "cumulative": {
-        "major-book": 150,
-        "bible-storytelling": 180,
-        "lebanon": 271
-      }
-    },
-    {
-      "date": "2026-09-23",
+      "date": "2026-10-21",
       "dow": "수",
       "week": 5,
+      "type": "recording",
       "blocks": [
-        {
-          "book": "bible-storytelling",
-          "name": "성경 스토리텔링",
-          "pages": 20,
-          "kind": "record",
-          "label": "20p"
-        },
         {
           "book": "lebanon",
           "name": "레바논의 시내",
-          "pages": 18,
-          "kind": "record",
-          "label": "18p"
-        }
-      ],
-      "type": "recording",
-      "total_pages": 38,
-      "cumulative": {
-        "major-book": 150,
-        "bible-storytelling": 200,
-        "lebanon": 289
-      }
-    },
-    {
-      "date": "2026-09-24",
-      "dow": "목",
-      "week": 5,
-      "blocks": [
-        {
-          "book": "bible-storytelling",
-          "name": "성경 스토리텔링",
           "pages": null,
           "kind": "edit",
-          "label": "전일 편집"
+          "label": "편집"
+        },
+        {
+          "book": "acts",
+          "name": "사도행전",
+          "pages": 10,
+          "kind": "record",
+          "label": "10p"
         }
       ],
-      "type": "full_day",
-      "total_pages": 0,
+      "total_pages": 10,
       "cumulative": {
-        "major-book": 150,
-        "bible-storytelling": 200,
-        "lebanon": 289
-      }
+        "bible-storytelling": 132,
+        "lebanon": 197,
+        "acts": 20
+      },
+      "note": "레바논 편집(무발성)과 사도행전 녹음 10p 병행 — 전일 점유가 아니다"
     },
     {
-      "date": "2026-09-25",
-      "dow": "금",
+      "date": "2026-10-22",
+      "dow": "목",
       "week": 5,
+      "type": "recording",
       "blocks": [
         {
           "book": "lebanon",
           "name": "레바논의 시내",
-          "pages": 19,
-          "kind": "record",
-          "label": "19p",
-          "session": "오전"
+          "pages": null,
+          "kind": "edit",
+          "label": "편집"
         },
+        {
+          "book": "acts",
+          "name": "사도행전",
+          "pages": 10,
+          "kind": "record",
+          "label": "10p"
+        }
+      ],
+      "total_pages": 10,
+      "cumulative": {
+        "bible-storytelling": 132,
+        "lebanon": 197,
+        "acts": 30
+      },
+      "note": "레바논 편집(무발성)과 사도행전 녹음 10p 병행 — 전일 점유가 아니다"
+    },
+    {
+      "date": "2026-10-23",
+      "dow": "금",
+      "week": 5,
+      "type": "recording",
+      "blocks": [
         {
           "book": "lebanon",
           "name": "레바논의 시내",
-          "pages": 18,
+          "pages": null,
+          "kind": "edit",
+          "label": "편집"
+        },
+        {
+          "book": "acts",
+          "name": "사도행전",
+          "pages": 10,
           "kind": "record",
-          "label": "18p",
-          "session": "오후"
+          "label": "10p"
         }
       ],
-      "type": "recording",
-      "split_note": "타 도서 마감 완료 구간 — 서로 다른 장을 오전/오후로 분리",
-      "total_pages": 37,
+      "total_pages": 10,
       "cumulative": {
-        "major-book": 150,
-        "bible-storytelling": 200,
-        "lebanon": 326
-      }
+        "bible-storytelling": 132,
+        "lebanon": 197,
+        "acts": 40
+      },
+      "note": "레바논 편집(무발성)과 사도행전 녹음 10p 병행 — 전일 점유가 아니다"
     },
     {
-      "date": "2026-09-28",
+      "date": "2026-10-26",
       "dow": "월",
       "week": 6,
+      "type": "recording",
+      "blocks": [
+        {
+          "book": "lebanon",
+          "name": "레바논의 시내",
+          "pages": null,
+          "kind": "edit",
+          "label": "편집"
+        },
+        {
+          "book": "acts",
+          "name": "사도행전",
+          "pages": 10,
+          "kind": "record",
+          "label": "10p"
+        }
+      ],
+      "total_pages": 10,
+      "cumulative": {
+        "bible-storytelling": 132,
+        "lebanon": 197,
+        "acts": 50
+      },
+      "note": "레바논 편집(무발성)과 사도행전 녹음 10p 병행 — 전일 점유가 아니다"
+    },
+    {
+      "date": "2026-10-27",
+      "dow": "화",
+      "week": 6,
+      "type": "full_day",
       "blocks": [
         {
           "book": "classics-youtube",
@@ -706,137 +1640,238 @@
           "label": "전일 녹음"
         }
       ],
-      "type": "full_day",
       "total_pages": 0,
       "cumulative": {
-        "major-book": 150,
-        "bible-storytelling": 200,
-        "lebanon": 326
-      }
+        "bible-storytelling": 132,
+        "lebanon": 197,
+        "acts": 50
+      },
+      "note": "주간 고전 유튜브 전일 녹음 — 페이지 예산 비소비"
     },
     {
-      "date": "2026-09-29",
-      "dow": "화",
-      "week": 6,
-      "blocks": [
-        {
-          "book": "lebanon",
-          "name": "레바논의 시내",
-          "pages": 18,
-          "kind": "record",
-          "label": "18p",
-          "session": "오전"
-        },
-        {
-          "book": "lebanon",
-          "name": "레바논의 시내",
-          "pages": 18,
-          "kind": "record",
-          "label": "18p",
-          "session": "오후"
-        }
-      ],
-      "type": "recording",
-      "split_note": "타 도서 마감 완료 구간 — 서로 다른 장을 오전/오후로 분리",
-      "total_pages": 36,
-      "cumulative": {
-        "major-book": 150,
-        "bible-storytelling": 200,
-        "lebanon": 362
-      }
-    },
-    {
-      "date": "2026-09-30",
+      "date": "2026-10-28",
       "dow": "수",
       "week": 6,
+      "type": "recording",
       "blocks": [
         {
           "book": "lebanon",
           "name": "레바논의 시내",
-          "pages": 18,
-          "kind": "record",
-          "label": "18p",
-          "session": "오전"
+          "pages": null,
+          "kind": "edit",
+          "label": "편집"
         },
         {
-          "book": "lebanon",
-          "name": "레바논의 시내",
-          "pages": 18,
+          "book": "acts",
+          "name": "사도행전",
+          "pages": 10,
           "kind": "record",
-          "label": "18p",
-          "session": "오후"
+          "label": "10p"
         }
       ],
-      "type": "recording",
-      "split_note": "타 도서 마감 완료 구간 — 서로 다른 장을 오전/오후로 분리",
-      "total_pages": 36,
+      "total_pages": 10,
       "cumulative": {
-        "major-book": 150,
-        "bible-storytelling": 200,
-        "lebanon": 398
-      }
+        "bible-storytelling": 132,
+        "lebanon": 197,
+        "acts": 60
+      },
+      "note": "레바논 편집(무발성)과 사도행전 녹음 10p 병행 — 전일 점유가 아니다"
     },
     {
-      "date": "2026-10-01",
+      "date": "2026-10-29",
       "dow": "목",
       "week": 6,
+      "type": "recording",
       "blocks": [
         {
           "book": "lebanon",
           "name": "레바논의 시내",
-          "pages": 18,
-          "kind": "record",
-          "label": "18p",
-          "session": "오전"
+          "pages": null,
+          "kind": "edit",
+          "label": "편집"
         },
         {
-          "book": "lebanon",
-          "name": "레바논의 시내",
-          "pages": 18,
+          "book": "acts",
+          "name": "사도행전",
+          "pages": 10,
           "kind": "record",
-          "label": "18p",
-          "session": "오후"
+          "label": "10p"
         }
       ],
-      "type": "recording",
-      "split_note": "타 도서 마감 완료 구간 — 서로 다른 장을 오전/오후로 분리",
-      "total_pages": 36,
+      "total_pages": 10,
       "cumulative": {
-        "major-book": 150,
-        "bible-storytelling": 200,
-        "lebanon": 434
-      }
+        "bible-storytelling": 132,
+        "lebanon": 197,
+        "acts": 70
+      },
+      "note": "레바논 편집(무발성)과 사도행전 녹음 10p 병행 — 전일 점유가 아니다"
     },
     {
-      "date": "2026-10-02",
+      "date": "2026-10-30",
       "dow": "금",
       "week": 6,
+      "type": "recording",
       "blocks": [
         {
           "book": "lebanon",
           "name": "레바논의 시내",
-          "pages": 18,
-          "kind": "record",
-          "label": "18p",
-          "session": "오전"
+          "pages": null,
+          "kind": "edit",
+          "label": "편집"
         },
+        {
+          "book": "acts",
+          "name": "사도행전",
+          "pages": 10,
+          "kind": "record",
+          "label": "10p"
+        }
+      ],
+      "total_pages": 10,
+      "cumulative": {
+        "bible-storytelling": 132,
+        "lebanon": 197,
+        "acts": 80
+      },
+      "note": "레바논 편집(무발성)과 사도행전 녹음 10p 병행 — 전일 점유가 아니다"
+    },
+    {
+      "date": "2026-11-02",
+      "dow": "월",
+      "week": 7,
+      "type": "recording",
+      "blocks": [
         {
           "book": "lebanon",
           "name": "레바논의 시내",
-          "pages": 18,
+          "pages": null,
+          "kind": "edit",
+          "label": "편집"
+        },
+        {
+          "book": "acts",
+          "name": "사도행전",
+          "pages": 10,
           "kind": "record",
-          "label": "18p",
-          "session": "오후"
+          "label": "10p"
         }
       ],
-      "type": "recording",
-      "split_note": "타 도서 마감 완료 구간 — 서로 다른 장을 오전/오후로 분리",
-      "total_pages": 36,
+      "total_pages": 10,
       "cumulative": {
-        "major-book": 150,
-        "bible-storytelling": 200,
-        "lebanon": 470
-      }
+        "bible-storytelling": 132,
+        "lebanon": 197,
+        "acts": 90
+      },
+      "note": "레바논 편집(무발성)과 사도행전 녹음 10p 병행 — 전일 점유가 아니다"
+    },
+    {
+      "date": "2026-11-03",
+      "dow": "화",
+      "week": 7,
+      "type": "full_day",
+      "blocks": [
+        {
+          "book": "classics-youtube",
+          "name": "고전 유튜브",
+          "pages": null,
+          "kind": "record",
+          "label": "전일 녹음"
+        }
+      ],
+      "total_pages": 0,
+      "cumulative": {
+        "bible-storytelling": 132,
+        "lebanon": 197,
+        "acts": 90
+      },
+      "note": "주간 고전 유튜브 전일 녹음 — 페이지 예산 비소비"
+    },
+    {
+      "date": "2026-11-04",
+      "dow": "수",
+      "week": 7,
+      "type": "recording",
+      "blocks": [
+        {
+          "book": "lebanon",
+          "name": "레바논의 시내",
+          "pages": null,
+          "kind": "edit",
+          "label": "편집"
+        },
+        {
+          "book": "acts",
+          "name": "사도행전",
+          "pages": 10,
+          "kind": "record",
+          "label": "10p"
+        }
+      ],
+      "total_pages": 10,
+      "cumulative": {
+        "bible-storytelling": 132,
+        "lebanon": 197,
+        "acts": 100
+      },
+      "note": "레바논 편집(무발성)과 사도행전 녹음 10p 병행 — 전일 점유가 아니다"
+    },
+    {
+      "date": "2026-11-05",
+      "dow": "목",
+      "week": 7,
+      "type": "recording",
+      "blocks": [
+        {
+          "book": "lebanon",
+          "name": "레바논의 시내",
+          "pages": null,
+          "kind": "edit",
+          "label": "편집"
+        },
+        {
+          "book": "acts",
+          "name": "사도행전",
+          "pages": 10,
+          "kind": "record",
+          "label": "10p"
+        }
+      ],
+      "total_pages": 10,
+      "cumulative": {
+        "bible-storytelling": 132,
+        "lebanon": 197,
+        "acts": 110
+      },
+      "note": "레바논 편집(무발성)과 사도행전 녹음 10p 병행 — 전일 점유가 아니다"
+    },
+    {
+      "date": "2026-11-06",
+      "dow": "금",
+      "week": 7,
+      "type": "recording",
+      "blocks": [
+        {
+          "book": "lebanon",
+          "name": "레바논의 시내",
+          "pages": null,
+          "kind": "edit",
+          "label": "편집"
+        },
+        {
+          "book": "acts",
+          "name": "사도행전",
+          "pages": 10,
+          "kind": "record",
+          "label": "10p"
+        }
+      ],
+      "total_pages": 10,
+      "cumulative": {
+        "bible-storytelling": 132,
+        "lebanon": 197,
+        "acts": 120
+      },
+      "note": "레바논 편집(무발성)과 사도행전 녹음 10p 병행 — 전일 점유가 아니다"
     }
   ]
 }
